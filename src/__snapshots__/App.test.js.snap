@@ -1,0 +1,41 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`App Component matches snapshot 1`] = `
+<div>
+  <div
+    class="container"
+  >
+    <div
+      class="add-item-row row"
+    >
+      <div
+        class="col-sm-10 col-12"
+      >
+        <input
+          class="input-box"
+          placeholder="할일을 입력하세요"
+          type="text"
+          value=""
+        />
+      </div>
+      <div
+        class="col-sm-2 col-12"
+      >
+        <button
+          class="button-add"
+        >
+          추가
+        </button>
+      </div>
+    </div>
+    <div>
+      <h2>
+        Todo List
+      </h2>
+      <div>
+        There is no Item to show
+      </div>
+    </div>
+  </div>
+</div>
+`;
