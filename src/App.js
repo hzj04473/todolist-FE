@@ -69,7 +69,10 @@ function App() {
       if (response.status === 201) {
         // console.log('성공');
         // 1. 입력한 값이 안 사라짐
-        setTodoValue('');
+        setTodoValue({
+          task: '',
+          dueDate: '',
+        });
         // 2. 추가한 값이 안 보임
         getTask();
       } else {
