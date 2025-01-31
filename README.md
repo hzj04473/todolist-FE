@@ -2,10 +2,12 @@
 
 # 0131 FE
 
+- 할일 일자 입력폼 연견
+
 # 0128 FE
 
-netlify - 1차 배포
-Helmet - SSO 관련
+- netlify - 1차 배포
+- Helmet - SSO 관련
 
 # 0127 FE
 
