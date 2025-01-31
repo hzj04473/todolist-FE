@@ -132,6 +132,7 @@ function App() {
         />
         <meta name="keywords" content="todo, react, 할일 목록" />
       </Helmet>
+
       <Container>
         <Row className="add-item-row">
           <Col xs={12} sm={10}>
