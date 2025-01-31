@@ -10,10 +10,7 @@ body {
   justify-content: space-between;
   align-items: center;
 }
-.completed {
-  text-decoration: line-through;
-  background-color: lightcyan;
-}
+
 .todo-content {
   padding: 1em;
 }
@@ -56,4 +53,10 @@ body {
 .item-complete {
   background-color: gainsboro;
   color: white;
+}
+
+.item-complete.cancel-line {
+  text-decoration: line-through;
+  text-decoration-color: red;
+  text-decoration-style: wavy;
 }

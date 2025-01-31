@@ -5,7 +5,11 @@ const TodoItem = ({ item, onDelete, toggleCompleteTask, formatDate }) => {
   return (
     <Row>
       <Col xs={12}>
-        <div className={`todo-item  ${item.isComplete ? 'item-complete' : ''}`}>
+        <div
+          className={`todo-item  ${
+            item.isComplete ? 'item-complete cancel-line' : ''
+          }`}
+        >
           <div className="todo-content">{item.task}</div>
           <div>
             <button
