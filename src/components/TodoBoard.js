@@ -17,7 +17,6 @@ const TodoBoard = ({ todoList, onDelete, toggleCompleteTask, formatDate }) => {
       ) : (
         <div>There is no Item to show</div>
       )}
-      {/* <TodoItem/> will be here once we get the todoList */}
     </div>
   );
 };

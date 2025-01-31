@@ -1,8 +1,12 @@
 import './App.css';
+// bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
+import FloatingLabel from 'react-bootstrap/FloatingLabel';
+import Form from 'react-bootstrap/Form';
+
 import { useCallback, useEffect, useState } from 'react';
 import api from './utils/api';
 import TodoBoard from './components/TodoBoard';
@@ -10,7 +14,13 @@ import { Helmet } from 'react-helmet-async';
 
 function App() {
   const [todoList, setTodoList] = useState([]);
-  const [todoValue, setTodoValue] = useState('');
+
+  const [todoValue, setTodoValue] = useState({
+    task: '',
+    isComplete: false,
+    dueDate: '',
+  });
+  // const [todoDateValue, setTodoDateValue] = useState('');
 
   const formatDate = useCallback((dateString) => {
     const date = new Date(dateString); // '2025-01-27T07:09:25.203Z' 형식의 문자열을 Date 객체로 변환
@@ -39,15 +49,20 @@ function App() {
   }, []);
 
   const addTask = useCallback(async () => {
-    // console.log(todoValue.trim());
-    if (!todoValue.trim()) {
+    console.log(todoValue.dueDate.trim());
+    if (!todoValue.dueDate.trim()) {
+      alert('일자를 입력하여 주세요.');
+      return;
+    }
+    if (!todoValue.task.trim()) {
       alert('할일을 입력하여 주세요.');
       return;
     }
 
     try {
       const response = await api.post('/tasks', {
-        task: todoValue,
+        task: todoValue.task,
+        dueDate: todoValue.dueDate,
         isComplete: false,
       });
 
@@ -136,18 +151,41 @@ function App() {
       <Container>
         <Row className="add-item-row">
           <Col xs={12} sm={10}>
-            <input
-              type="text"
-              placeholder="할일을 입력하세요"
-              className="input-box"
-              value={todoValue}
-              onChange={(event) => {
-                setTodoValue(event.target.value);
-              }}
-            />
+            <FloatingLabel
+              controlId="floatingDate"
+              label="일자를 입력을 해 주세요."
+              className="mb-3"
+            >
+              <Form.Control
+                type="date"
+                placeholder="date"
+                className="input-box"
+                value={todoValue.dueDate}
+                onChange={(event) => {
+                  console.log('todoValue', todoValue);
+                  setTodoValue({ ...todoValue, dueDate: event.target.value });
+                }}
+              />
+            </FloatingLabel>
+            <FloatingLabel
+              controlId="floatingInput"
+              label="할일을 입력하세요"
+              className="mb-3"
+            >
+              <Form.Control
+                type="text"
+                placeholder="할일을 입력하세요"
+                className="input-box"
+                value={todoValue.task}
+                onChange={(event) => {
+                  console.log('todoValue', todoValue);
+                  setTodoValue({ ...todoValue, task: event.target.value });
+                }}
+              />
+            </FloatingLabel>
           </Col>
           <Col xs={12} sm={2}>
-            <button className="button-add" onClick={addTask}>
+            <button className="button-add mb-1 mt-1" onClick={addTask}>
               추가
             </button>
           </Col>
