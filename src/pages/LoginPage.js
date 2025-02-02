@@ -17,10 +17,10 @@ function LoginPage() {
     event.preventDefault();
     try {
       if (!email) {
-        throw new Error('이매알을 입력해 주세요.');
+        throw new Error('이메일을 입력해 주세요.');
       }
       if (!password) {
-        throw new Error('패스워드를 입력해 주세요.');
+        throw new Error('비밀번호를 입력해 주세요.');
       }
 
       // api

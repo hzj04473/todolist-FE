@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import api from '../utils/api';
 function RegisterPage() {
@@ -78,10 +78,14 @@ function RegisterPage() {
             value={secPassword}
           />
         </Form.Group>
-
-        <Button className="button-primary" type="submit">
-          회원가입
-        </Button>
+        <div className="button-box">
+          <Button className="button-primary" type="submit">
+            회원가입
+          </Button>
+          <span>
+            <Link to="/login">로그인 페이지로 이동</Link>
+          </span>
+        </div>
       </Form>
     </div>
   );
