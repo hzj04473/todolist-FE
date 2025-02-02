@@ -29,7 +29,10 @@ function LoginPage() {
 
       if (response.status === 200) {
         setUser(response.data.user);
+        // sessionStorage 사용하여, token 저장
         sessionStorage.setItem('token', response.data.token);
+        // 저장된 토큰을 header에 값을 넣어서 보냄.
+        // headers {authorization : Bearer xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx}
         api.defaults.headers['authorization'] = 'Bearer ' + response.data.token;
         setError('');
         navigation('/');
@@ -47,27 +50,27 @@ function LoginPage() {
       <Form className="login-box" onSubmit={handleLogin}>
         <h1>로그인</h1>
         <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
+          <Form.Label>이메일</Form.Label>
           <Form.Control
             type="email"
-            placeholder="Enter email"
+            placeholder="이메일을 입력해 주세요."
             onChange={(event) => setEmail(event.target.value)}
             value={email}
           />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
+          <Form.Label>비밀번호</Form.Label>
           <Form.Control
             type="password"
-            placeholder="Password"
+            placeholder="비밀번호를 입력해 주세요."
             onChange={(event) => setPassword(event.target.value)}
             value={password}
           />
         </Form.Group>
         <div className="button-box">
           <Button type="submit" className="button-primary">
-            Login
+            로그인
           </Button>
           <span>
             계정이 없다면? <Link to="/register">회원가입 하기</Link>

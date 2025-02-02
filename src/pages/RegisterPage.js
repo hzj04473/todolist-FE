@@ -40,40 +40,40 @@ function RegisterPage() {
       <Form className="login-box" onSubmit={handleSubmit}>
         <h1>회원가입</h1>
         <Form.Group className="mb-3" controlId="formName">
-          <Form.Label>Name</Form.Label>
+          <Form.Label>이름</Form.Label>
           <Form.Control
             type="string"
-            placeholder="Name"
+            placeholder="이름을 입력해 주세요"
             onChange={(event) => setName(event.target.value)}
             value={name}
           />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Email address</Form.Label>
+          <Form.Label>이메일</Form.Label>
           <Form.Control
             type="email"
-            placeholder="Enter email"
+            placeholder="이메일을 입력해 주세요."
             onChange={(event) => setEmail(event.target.value)}
             value={email}
           />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>Password</Form.Label>
+          <Form.Label>비밀번호</Form.Label>
           <Form.Control
             type="password"
-            placeholder="Password"
+            placeholder="비밀번호를 입력해 주세요."
             onChange={(event) => setPassword(event.target.value)}
             value={password}
           />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
-          <Form.Label>re-enter the password</Form.Label>
+          <Form.Label>비밀번호 확인</Form.Label>
           <Form.Control
             type="password"
-            placeholder="re-enter the password"
+            placeholder="다시 한번 비밀번호를 입력해 주세요."
             onChange={(event) => setSecpassword(event.target.value)}
             value={secPassword}
           />
