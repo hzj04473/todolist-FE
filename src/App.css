@@ -61,3 +61,37 @@ body {
   text-decoration-color: red;
   text-decoration-style: wavy;
 }
+
+.login-box {
+  border: 1px solid lightblue;
+  max-width: 600px;
+  width: 100%;
+  background-color: white;
+  padding: 20px;
+}
+.login-box label {
+  font-weight: 700;
+}
+
+.display-center {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.button-box {
+  display: flex;
+  justify-content: space-between;
+}
+
+.button-primary {
+  background-color: lightblue;
+  color: #ffffff;
+  border: none;
+}
+
+.red-error {
+  color: red;
+}
