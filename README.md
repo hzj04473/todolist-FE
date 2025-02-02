@@ -1,7 +1,22 @@
 ## todolist-FE
 
+# 0203
+
+- 로그아웃
+- 회원권한 나누기
+- 로그인이 되었다면 리다이렉트
+
+# 0202
+
+- Session Storage
+- 회원가입
+- 로그인
+
 # 0131 FE
 
+- pages 폴더에 TodoPage.js, LoginPage.js, RegisterPage.js 생성
+- react-router-dom install
+- 기존 app.js 에 있던 task 입력/리스트 페이지 -> pages 폴더로 이동
 - 할일 일자 입력폼 연견
 
 # 0128 FE
