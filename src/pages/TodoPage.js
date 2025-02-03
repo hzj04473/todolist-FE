@@ -177,6 +177,7 @@ function TodoPage() {
                       setTodoValue({
                         ...todoValue,
                         dueStartDate: event.target.value,
+                        dueEndDate: event.target.value,
                       });
                     }}
                   />
