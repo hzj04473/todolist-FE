@@ -27,10 +27,8 @@ function TodoPage() {
     const year = date.getFullYear(); // 연도
     const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월 (0부터 시작하므로 +1 해주고, 2자리로 만들기 위해 padStart 사용)
     const day = date.getDate().toString().padStart(2, '0'); // 일 (2자리로 맞추기)
-    const hours = date.getHours().toString().padStart(2, '0'); // 시 (2자리로 맞추기)
-    const minutes = date.getMinutes().toString().padStart(2, '0'); // 분 (2자리로 맞추기)
 
-    return `${year}.${month}.${day} ${hours}:${minutes}`; // 원하는 형식으로 반환
+    return `${year}.${month}.${day}`; // 원하는 형식으로 반환
   }, []);
 
   const getTask = useCallback(async () => {

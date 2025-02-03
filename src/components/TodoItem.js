@@ -1,37 +1,38 @@
 import React from 'react';
-import { Col, Row } from 'react-bootstrap';
+import Col from 'react-bootstrap/Col';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 
 const TodoItem = ({ item, onDelete, toggleCompleteTask, formatDate }) => {
   return (
-    <Row>
-      <Col xs={12}>
-        <div
-          className={`todo-item  ${
-            item.isComplete ? 'item-complete cancel-line' : ''
-          }`}
-        >
-          <div className="todo-content">{item.task}</div>
-          <div>
-            <button
-              className="button-delete"
-              onClick={() => {
-                onDelete(item._id);
-              }}
+    <Col xs={12} sm={6} md={4}>
+      <Card className="mb-3" bg={item.isComplete ? 'success' : ''}>
+        <Card.Body>
+          <Card.Title>{item.task}</Card.Title>
+          <Card.Subtitle className="mt-3 mb-3">
+            {formatDate(item.dueStartDate)} ~ {formatDate(item.dueEndDate)}
+          </Card.Subtitle>
+          <Card.Text>{item.geminiMessage}</Card.Text>
+
+          <Card.Body className="d-flex justify-content-between">
+            <Button
+              variant="danger"
+              className="p-2"
+              onClick={() => onDelete(item._id)}
             >
               삭제
-            </button>
-            <button
-              className="button-delete"
-              onClick={() => {
-                toggleCompleteTask(item._id);
-              }}
+            </Button>
+            <Button
+              variant={item.isComplete ? 'outline-warning' : 'outline-success'}
+              className="p-2"
+              onClick={() => toggleCompleteTask(item._id)}
             >
               {item.isComplete ? '미완료' : '완료'}
-            </button>
-          </div>
-        </div>
-      </Col>
-    </Row>
+            </Button>
+          </Card.Body>
+        </Card.Body>
+      </Card>
+    </Col>
   );
 };
 
