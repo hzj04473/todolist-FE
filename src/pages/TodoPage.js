@@ -11,27 +11,14 @@ import Form from 'react-bootstrap/Form';
 import { Helmet } from 'react-helmet-async';
 import { NavPage } from './NavPage';
 function TodoPage() {
-  const nowdate = new Date();
-
   const [todoList, setTodoList] = useState([]);
 
   const [todoValue, setTodoValue] = useState({
     task: '',
     isComplete: false,
-    dueStartDate:
-      nowdate.getFullYear() +
-      '-' +
-      (nowdate.getMonth() + 1).toString().padStart(2, '0') +
-      '-' +
-      nowdate.getDate().toString().padStart(2, '0'),
-    dueEndDate:
-      nowdate.getFullYear() +
-      '-' +
-      (nowdate.getMonth() + 1).toString().padStart(2, '0') +
-      '-' +
-      nowdate.getDate().toString().padStart(2, '0'),
+    dueStartDate: '',
+    dueEndDate: '',
   });
-  console.log(todoValue);
 
   const formatDate = useCallback((dateString) => {
     const date = new Date(dateString); // '2025-01-27T07:09:25.203Z' 형식의 문자열을 Date 객체로 변환
@@ -40,7 +27,7 @@ function TodoPage() {
     const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월 (0부터 시작하므로 +1 해주고, 2자리로 만들기 위해 padStart 사용)
     const day = date.getDate().toString().padStart(2, '0'); // 일 (2자리로 맞추기)
 
-    return `${year}-${month}-${day}`; // 원하는 형식으로 반환
+    return `${year}.${month}.${day}`; // 원하는 형식으로 반환
   }, []);
 
   const getTask = useCallback(async () => {
