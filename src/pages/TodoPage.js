@@ -9,13 +9,15 @@ import FloatingLabel from 'react-bootstrap/FloatingLabel';
 import Form from 'react-bootstrap/Form';
 
 import { Helmet } from 'react-helmet-async';
+import { NavPage } from './NavPage';
 function TodoPage() {
   const [todoList, setTodoList] = useState([]);
 
   const [todoValue, setTodoValue] = useState({
     task: '',
     isComplete: false,
-    dueDate: '',
+    dueStartDate: '',
+    dueEndDate: '',
   });
   // const [todoDateValue, setTodoDateValue] = useState('');
 
@@ -46,9 +48,15 @@ function TodoPage() {
   }, []);
 
   const addTask = useCallback(async () => {
-    console.log(todoValue.dueDate.trim());
-    if (!todoValue.dueDate.trim()) {
-      alert('일자를 입력하여 주세요.');
+    // console.log(todoValue.dueStartDate.trim());
+    // console.log(todoValue.dueEndDate.trim());
+    if (!todoValue.dueStartDate.trim()) {
+      alert('시작 일자를 입력하여 주세요.');
+      return;
+    }
+
+    if (!todoValue.dueEndDate.trim()) {
+      alert('종료 일자를 입력하여 주세요.');
       return;
     }
     if (!todoValue.task.trim()) {
@@ -59,7 +67,8 @@ function TodoPage() {
     try {
       const response = await api.post('/tasks', {
         task: todoValue.task,
-        dueDate: todoValue.dueDate,
+        dueStartDate: todoValue.dueStartDate,
+        dueEndDate: todoValue.dueEndDate,
         isComplete: false,
       });
 
@@ -68,7 +77,8 @@ function TodoPage() {
         // 1. 입력한 값이 안 사라짐
         setTodoValue({
           task: '',
-          dueDate: '',
+          dueStartDate: '',
+          dueEndDate: '',
         });
         // 2. 추가한 값이 안 보임
         getTask();
@@ -149,24 +159,57 @@ function TodoPage() {
       </Helmet>
 
       <Container>
+        <NavPage />
         <Row className="add-item-row">
           <Col xs={12} sm={10}>
-            <FloatingLabel
-              controlId="floatingDate"
-              label="일자를 입력을 해 주세요."
-              className="mb-3"
-            >
-              <Form.Control
-                type="date"
-                placeholder="date"
-                className="input-box"
-                value={todoValue.dueDate}
-                onChange={(event) => {
-                  console.log('todoValue', todoValue);
-                  setTodoValue({ ...todoValue, dueDate: event.target.value });
-                }}
-              />
-            </FloatingLabel>
+            <Row className="mb-3">
+              <Form.Group as={Col} controlId="formGridEmail">
+                <FloatingLabel
+                  controlId="floatingStartDate"
+                  label="시작 일자를 입력을 해 주세요."
+                  className="mb-3"
+                >
+                  <Form.Control
+                    type="date"
+                    placeholder="date"
+                    className="input-box"
+                    value={todoValue.dueStartDate}
+                    onChange={(event) => {
+                      // console.log('todoValue', todoValue);
+                      setTodoValue({
+                        ...todoValue,
+                        dueStartDate: event.target.value,
+                      });
+                    }}
+                  />
+                </FloatingLabel>
+              </Form.Group>
+              <Form.Group as={Col} controlId="formGridEmail">
+                <FloatingLabel
+                  controlId="floatingEndDate"
+                  label="종료 일자를 입력을 해 주세요."
+                  className="mb-3"
+                >
+                  <Form.Control
+                    type="date"
+                    placeholder="date"
+                    className="input-box"
+                    value={
+                      !todoValue.dueEndDate
+                        ? todoValue.dueStartDate
+                        : todoValue.dueEndDate
+                    }
+                    onChange={(event) => {
+                      // console.log('todoValue', todoValue);
+                      setTodoValue({
+                        ...todoValue,
+                        dueEndDate: event.target.value,
+                      });
+                    }}
+                  />
+                </FloatingLabel>
+              </Form.Group>
+            </Row>
             <FloatingLabel
               controlId="floatingInput"
               label="할일을 입력하세요"
