@@ -6,18 +6,18 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, Navigate } from 'react-router-dom';
 
 import api from '../utils/api';
 
 import { Helmet } from 'react-helmet-async';
 
-function LoginPage() {
+function LoginPage({ user, setUser }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigation = useNavigate();
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -34,7 +34,7 @@ function LoginPage() {
       // console.log(response);
 
       if (response.status === 200) {
-        console.log(response.data.user, user);
+        // console.log(response.data.user, user);
         setUser(response.data.user);
         // sessionStorage 사용하여, token 저장
         sessionStorage.setItem('token', response.data.token);
@@ -51,6 +51,9 @@ function LoginPage() {
     }
   };
 
+  if (user) {
+    return <Navigate to="/" />;
+  }
   return (
     <>
       <Helmet>

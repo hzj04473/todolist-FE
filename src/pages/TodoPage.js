@@ -33,7 +33,7 @@ function TodoPage() {
   const getTask = useCallback(async () => {
     try {
       const response = await api.get('/tasks');
-      // console.log('처음 데이터 >>>', response.data.data);
+      console.log('처음 데이터 >>>', response.data.data);
       if (response.status === 200) {
         setTodoList(response.data.data);
       } else {
