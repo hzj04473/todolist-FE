@@ -43,7 +43,7 @@ body {
 }
 .button-add.btn-active {
   background-color: lightblue !important;
-  color: white;
+  color: white !important;
 }
 
 .button-delete {
