@@ -50,11 +50,7 @@ export const NavPage = () => {
                   }}
                 >
                   <NavDropdown.Item href="/register">회원정보</NavDropdown.Item>
-                  <NavDropdown.Item
-                    eventKey="logout"
-                    onMouseDown={handleLogout}
-                    onTouchStart={handleLogout}
-                  >
+                  <NavDropdown.Item eventKey="logout" onClick={handleLogout}>
                     로그아웃
                   </NavDropdown.Item>
                 </NavDropdown>
