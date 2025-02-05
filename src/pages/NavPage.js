@@ -6,13 +6,17 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import api from '../utils/api';
 
 export const NavPage = () => {
-  const handleLogout = () => {
+  const handleLogout = async () => {
     try {
       sessionStorage.removeItem('token');
+      const response = await api.post('/user/logout');
 
-      window.location.href = '/';
+      if (response.status === 200) {
+        window.location.href = '/login'; // 로그인 페이지로 이동
+      }
     } catch (error) {
       console.error('Logout error:', error);
     }
@@ -42,7 +46,7 @@ export const NavPage = () => {
                   title="마이페이지"
                   id={`offcanvasNavbarDropdown-expand-md`}
                 >
-                  <NavDropdown.Item href="#">회원정보</NavDropdown.Item>
+                  <NavDropdown.Item href="/register">회원정보</NavDropdown.Item>
                   <NavDropdown.Item onClick={handleLogout}>
                     로그아웃
                   </NavDropdown.Item>
