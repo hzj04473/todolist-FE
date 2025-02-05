@@ -53,6 +53,10 @@ export const NavPage = ({ user, setUser }) => {
                     if (eventKey === 'logout') handleLogout();
                   }}
                 >
+                  <p class="text-center">
+                    <span className="text-info">안녕! </span>
+                    <span className="fst-italic fw-bold">{user.name}</span>
+                  </p>
                   <NavDropdown.Item href="/register">회원정보</NavDropdown.Item>
                   <NavDropdown.Item eventKey="logout" onClick={handleLogout}>
                     로그아웃
