@@ -7,15 +7,19 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import api from '../utils/api';
+import { useNavigate } from 'react-router-dom';
 
-export const NavPage = () => {
+export const NavPage = ({ user, setUser }) => {
+  console.log('navi user >>>>', user);
+  const navigate = useNavigate();
   const handleLogout = async () => {
     try {
       sessionStorage.removeItem('token');
       const response = await api.post('/user/logout');
 
       if (response.status === 200) {
-        window.location.href = '/login'; // 로그인 페이지로 이동
+        setUser(null);
+        navigate('/login'); // 로그아웃 후 '/' 경로로 리디렉션
       }
     } catch (error) {
       console.error('Logout error:', error);
