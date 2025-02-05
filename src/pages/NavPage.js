@@ -7,7 +7,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import api from '../utils/api';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
 
 export const NavPage = ({ user, setUser }) => {
   console.log('navi user >>>>', user);
@@ -50,7 +50,11 @@ export const NavPage = ({ user, setUser }) => {
                   title="마이페이지"
                   id={`offcanvasNavbarDropdown-expand-md`}
                   onSelect={(eventKey) => {
-                    if (eventKey === 'logout') handleLogout();
+                    if (eventKey === 'logout') {
+                      handleLogout();
+                    } else if (eventKey === 'edit') {
+                      handleRegisterEdit();
+                    }
                   }}
                 >
                   <NavDropdown.Item href="/register">회원정보</NavDropdown.Item>
