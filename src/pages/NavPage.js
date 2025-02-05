@@ -45,9 +45,12 @@ export const NavPage = () => {
                 <NavDropdown
                   title="마이페이지"
                   id={`offcanvasNavbarDropdown-expand-md`}
+                  onSelect={(eventKey) => {
+                    if (eventKey === 'logout') handleLogout();
+                  }}
                 >
                   <NavDropdown.Item href="/register">회원정보</NavDropdown.Item>
-                  <NavDropdown.Item onClick={handleLogout}>
+                  <NavDropdown.Item eventKey="logout">
                     로그아웃
                   </NavDropdown.Item>
                 </NavDropdown>
