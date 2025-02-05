@@ -50,11 +50,7 @@ export const NavPage = ({ user, setUser }) => {
                   title="마이페이지"
                   id={`offcanvasNavbarDropdown-expand-md`}
                   onSelect={(eventKey) => {
-                    if (eventKey === 'logout') {
-                      handleLogout();
-                    } else if (eventKey === 'edit') {
-                      handleRegisterEdit();
-                    }
+                    if (eventKey === 'logout') handleLogout();
                   }}
                 >
                   <NavDropdown.Item href="/register">회원정보</NavDropdown.Item>
