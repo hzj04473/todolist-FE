@@ -19,7 +19,7 @@ export const NavPage = ({ user, setUser }) => {
 
       if (response.status === 200) {
         setUser(null);
-        navigate('/login'); // 로그아웃 후 '/' 경로로 리디렉션
+        navigate('/'); // 로그아웃 후 '/' 경로로 리디렉션
       }
     } catch (error) {
       console.error('Logout error:', error);
