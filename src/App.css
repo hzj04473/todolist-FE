@@ -106,8 +106,8 @@ body {
   max-height: 90px; /* 최대 높이 설정 */
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 3; /* 최대 3줄까지만 표시 */
-  -webkit-box-orient: vertical;
+  line-clamp: 3; /* 표준 속성 */
+  box-orient: vertical; /* 표준 속성 */
   text-overflow: ellipsis;
   word-wrap: break-word;
 }
