@@ -87,7 +87,6 @@ function LoginPage({ user, setUser }) {
                     placeholder="이메일을 입력해 주세요."
                     onChange={(event) => setEmail(event.target.value)}
                     value={email}
-                    autoComplete="off"
                   />
                 </Form.Group>
 
@@ -98,7 +97,6 @@ function LoginPage({ user, setUser }) {
                     placeholder="비밀번호를 입력해 주세요."
                     onChange={(event) => setPassword(event.target.value)}
                     value={password}
-                    autoComplete="off"
                   />
                 </Form.Group>
                 <div className="button-box">
