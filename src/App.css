@@ -42,7 +42,7 @@ body {
   border: 2px solid lightblue;
 }
 .button-add.btn-active {
-  background-color: #0056b3 !important;
+  background-color: lightblue !important;
 }
 
 .button-delete {
