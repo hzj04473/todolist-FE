@@ -5,6 +5,7 @@ const TodoBoard = ({ todoList, onDelete, toggleCompleteTask, formatDate }) => {
   return (
     <div>
       <h2>Todo List</h2>
+
       <Row>
         {todoList.length > 0 ? (
           todoList.map((item, index) => (

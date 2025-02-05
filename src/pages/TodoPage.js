@@ -1,12 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import TodoBoard from '../components/TodoBoard';
 import api from '../utils/api';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
-
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import Form from 'react-bootstrap/Form';
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  FloatingLabel,
+  Button,
+} from 'react-bootstrap';
 
 import { Helmet } from 'react-helmet-async';
 import { NavPage } from './NavPage';
@@ -16,8 +18,8 @@ function TodoPage() {
   const [todoValue, setTodoValue] = useState({
     task: '',
     isComplete: false,
-    dueStartDate: '',
-    dueEndDate: '',
+    dueStartDate: new Date().toISOString().substring(0, 10),
+    dueEndDate: new Date().toISOString().substring(0, 10),
   });
 
   const formatDate = useCallback((dateString) => {
@@ -74,8 +76,8 @@ function TodoPage() {
         // 1. 입력한 값이 안 사라짐
         setTodoValue({
           task: '',
-          dueStartDate: '',
-          dueEndDate: '',
+          dueStartDate: new Date().toISOString().substring(0, 10),
+          dueEndDate: new Date().toISOString().substring(0, 10),
         });
         // 2. 추가한 값이 안 보임
         getTask();
@@ -155,7 +157,7 @@ function TodoPage() {
         <meta name="keywords" content="todo, react, 할일 목록" />
       </Helmet>
 
-      <Container>
+      <Container className="mt-5">
         <NavPage />
         <Row className="add-item-row">
           <Col xs={12} sm={10}>

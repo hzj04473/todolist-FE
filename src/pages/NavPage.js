@@ -39,7 +39,7 @@ export const NavPage = () => {
               </Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
-              <Nav className="justify-content-end flex-grow-1 pe-3">
+              <Nav className="justify-content-end flex-grow-1">
                 <Nav.Link href="/">나의 할일</Nav.Link>
 
                 <NavDropdown
@@ -52,6 +52,7 @@ export const NavPage = () => {
                   </NavDropdown.Item>
                 </NavDropdown>
               </Nav>
+
               <Form className="d-flex">
                 <Form.Control
                   type="search"

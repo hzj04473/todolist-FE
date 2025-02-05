@@ -14,7 +14,15 @@ const TodoItem = ({ item, onDelete, toggleCompleteTask, formatDate }) => {
             {formatDate(item.dueStartDate)} ~ {formatDate(item.dueEndDate)}
           </Card.Subtitle>
           <Card.Text>작성자 : {item.author?.name || '-'}</Card.Text>
-          <Card.Text>{item.geminiMessage}</Card.Text>
+          <Card.Text
+            style={{ opacity: 0.5 }}
+            className="p-2 mb-1 bg-primary text-white"
+          >
+            Ai Gemini
+          </Card.Text>
+          <Card.Text className="flex-grow-1 mt-3 text-truncate-multiline">
+            {item.geminiMessage}
+          </Card.Text>
 
           <Card.Body className="d-flex justify-content-between">
             <Button
