@@ -4,7 +4,7 @@ import api from '../utils/api';
 import { Container, Row, Col, Form, FloatingLabel } from 'react-bootstrap';
 
 import { Helmet } from 'react-helmet-async';
-import { NavPage } from './NavPage';
+
 function TodoPage({ user, setUser }) {
   const [todoList, setTodoList] = useState([]);
 
@@ -150,8 +150,7 @@ function TodoPage({ user, setUser }) {
         <meta name="keywords" content="todo, react, 할일 목록" />
       </Helmet>
 
-      <Container className="mt-5">
-        <NavPage user={user} setUser={setUser} />
+      <Container className="mt-2">
         <Row className="add-item-row">
           <Col xs={12} sm={10}>
             <Row className="mb-3">
