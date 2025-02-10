@@ -13,8 +13,8 @@ import api from '../utils/api';
 import { Helmet } from 'react-helmet-async';
 
 function LoginPage({ user, setUser }) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('hzj04473@todo.com');
+  const [password, setPassword] = useState('1234');
   const [error, setError] = useState('');
   const navigation = useNavigate();
   // const [user, setUser] = useState(null);
