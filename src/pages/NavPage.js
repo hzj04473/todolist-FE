@@ -1,17 +1,21 @@
 import React from 'react';
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import Offcanvas from 'react-bootstrap/Offcanvas';
+
+import {
+  Button,
+  Container,
+  Form,
+  Nav,
+  Navbar,
+  NavDropdown,
+  Offcanvas,
+} from 'react-bootstrap';
 import api from '../utils/api';
-import { useNavigate, Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 export const NavPage = ({ user, setUser }) => {
-  console.log('navi user >>>>', user);
+  // console.log('navi user >>>>', user);
   const navigate = useNavigate();
+
   const handleLogout = async () => {
     try {
       sessionStorage.removeItem('token');
@@ -44,7 +48,11 @@ export const NavPage = ({ user, setUser }) => {
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Nav className="justify-content-end flex-grow-1">
-                <Nav.Link href="/">나의 할일</Nav.Link>
+                {user ? (
+                  <Nav.Link href="/">나의 할일</Nav.Link>
+                ) : (
+                  <Nav.Link href="/login">로그인</Nav.Link>
+                )}
 
                 <NavDropdown
                   title="마이페이지"
@@ -53,10 +61,26 @@ export const NavPage = ({ user, setUser }) => {
                     if (eventKey === 'logout') handleLogout();
                   }}
                 >
-                  <NavDropdown.Item href="/register">회원정보</NavDropdown.Item>
-                  <NavDropdown.Item eventKey="logout" onClick={handleLogout}>
-                    로그아웃
+                  {user ? (
+                    <>
+                      <NavDropdown.Header>
+                        환영합니다.
+                        <span style={{ color: 'orange' }}>{user.name}</span>
+                      </NavDropdown.Header>
+                    </>
+                  ) : (
+                    ''
+                  )}
+                  <NavDropdown.Item href="/register">
+                    {user ? '회원정보' : '회원가입'}
                   </NavDropdown.Item>
+                  {user ? (
+                    <NavDropdown.Item eventKey="logout" onClick={handleLogout}>
+                      로그아웃
+                    </NavDropdown.Item>
+                  ) : (
+                    ''
+                  )}
                 </NavDropdown>
               </Nav>
 
@@ -67,7 +91,7 @@ export const NavPage = ({ user, setUser }) => {
                   className="me-2"
                   aria-label="Search"
                 />
-                <Button variant="outline-dark">🔎</Button>
+                <Button variant="outline-dark">🔍</Button>
               </Form>
             </Offcanvas.Body>
           </Navbar.Offcanvas>
