@@ -49,9 +49,13 @@ export const NavPage = ({ user, setUser }) => {
             <Offcanvas.Body>
               <Nav className="justify-content-end flex-grow-1">
                 {user ? (
-                  <Nav.Link href="/">나의 할일</Nav.Link>
+                  <Nav.Link as={Link} to="/">
+                    나의 할일
+                  </Nav.Link>
                 ) : (
-                  <Nav.Link href="/login">로그인</Nav.Link>
+                  <Nav.Link as={Link} to="/login">
+                    로그인
+                  </Nav.Link>
                 )}
 
                 <NavDropdown
