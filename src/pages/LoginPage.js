@@ -73,7 +73,7 @@ function LoginPage({ user, setUser }) {
         <meta name="keywords" content="todo, react, 할일 목록" />
       </Helmet>
 
-      <Container>
+      <Container className="mt-2">
         <Row>
           <Col>
             <div className="display-center">
