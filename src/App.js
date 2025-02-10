@@ -5,13 +5,14 @@ import { Route, Routes } from 'react-router-dom';
 import TodoPage from './pages/TodoPage';
 import RegisterPage from './pages/RegisterPage';
 import LoginPage from './pages/LoginPage';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import PrivateRoute from './route/PrivateRoute';
 import api from './utils/api';
+import { NavPage } from './pages/NavPage';
 
 function App() {
   const [user, setUser] = useState(null);
-  const getUser = async () => {
+  const getUser = useCallback(async () => {
     try {
       const storedToken = sessionStorage.getItem('token');
       if (storedToken) {
@@ -22,29 +23,35 @@ function App() {
     } catch (error) {
       setUser(null);
     }
-  };
+  }, []);
 
   useEffect(() => {
     getUser();
-  }, []);
+  }, [getUser]);
 
   return (
-    <Routes>
-      {/* Private Router */}
-      <Route
-        path="/"
-        element={
-          <PrivateRoute user={user}>
-            <TodoPage user={user} setUser={setUser} />
-          </PrivateRoute>
-        }
-      />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route
-        path="/login"
-        element={<LoginPage user={user} setUser={setUser} />}
-      />
-    </Routes>
+    <>
+      <NavPage user={user} setUser={setUser} />
+      <Routes>
+        {/* Private Router */}
+        <Route
+          path="/"
+          element={
+            <PrivateRoute user={user}>
+              <TodoPage user={user} setUser={setUser} />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/register"
+          element={<RegisterPage user={user} setUser={setUser} />}
+        />
+        <Route
+          path="/login"
+          element={<LoginPage user={user} setUser={setUser} />}
+        />
+      </Routes>
+    </>
   );
 }
 
