@@ -24,17 +24,17 @@ const TodoItem = ({ item, onDelete, toggleCompleteTask, formatDate }) => {
             {item.geminiMessage}
           </Card.Text>
 
-          <Card.Body className="d-flex justify-content-between">
+          <Card.Body className="d-flex gap-2">
             <Button
               variant="danger"
-              className="p-2"
+              className="flex-grow-2"
               onClick={() => onDelete(item._id)}
             >
               삭제
             </Button>
             <Button
               variant={item.isComplete ? 'outline-warning' : 'outline-success'}
-              className="p-2"
+              className="flex-grow-1"
               onClick={() => toggleCompleteTask(item._id)}
             >
               {item.isComplete ? '미완료' : '완료'}
