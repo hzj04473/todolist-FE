@@ -35,14 +35,15 @@ export const NavPage = ({ user, setUser }) => {
 
   return (
     <>
-      <Navbar expand="md" className="bg-body-tertiary mb-3">
-        <Container fluid>
-          <Navbar.Brand as={Link} to="/">
+      <Navbar expand="md" className="bg-white shadow-sm py-3">
+        <Container fluid className="px-3">
+          <Navbar.Brand as={Link} to="/" className="fw-bold text-primary">
             Todo List
           </Navbar.Brand>
           <Navbar.Toggle
             aria-controls="offcanvasNavbar"
             onClick={handleShowOffcanvas}
+            className="border-0"
           />
           <Navbar.Offcanvas
             show={showOffcanvas}
@@ -50,16 +51,22 @@ export const NavPage = ({ user, setUser }) => {
             id="offcanvasNavbar"
             aria-labelledby="offcanvasNavbarLabel"
             placement="end"
+            className="w-75"
           >
-            <Offcanvas.Header closeButton>
-              <Offcanvas.Title id="offcanvasNavbarLabel">
+            <Offcanvas.Header closeButton className="border-bottom">
+              <Offcanvas.Title id="offcanvasNavbarLabel" className="fw-bold">
                 Todo List
               </Offcanvas.Title>
             </Offcanvas.Header>
-            <Offcanvas.Body>
-              <Nav className="justify-content-end flex-grow-1">
+            <Offcanvas.Body className="pt-3">
+              <Nav className="justify-content-end flex-grow-1 gap-2 align-items-center">
                 {user ? (
-                  <Nav.Link as={Link} to="/" onClick={handleCloseOffcanvas}>
+                  <Nav.Link
+                    as={Link}
+                    to="/"
+                    onClick={handleCloseOffcanvas}
+                    className="text-dark"
+                  >
                     나의 할일
                   </Nav.Link>
                 ) : (
@@ -67,49 +74,57 @@ export const NavPage = ({ user, setUser }) => {
                     as={Link}
                     to="/login"
                     onClick={handleCloseOffcanvas}
+                    className="text-dark"
                   >
                     로그인
                   </Nav.Link>
                 )}
-
                 <NavDropdown
                   title="마이페이지"
                   id="offcanvasNavbarDropdown"
+                  align="end"
+                  className="text-dark"
                   onSelect={(eventKey) => {
                     if (eventKey === 'logout') handleLogout();
                   }}
                 >
                   {user && (
-                    <NavDropdown.Header>
+                    <NavDropdown.Header className="py-2">
                       환영합니다.{' '}
-                      <span style={{ color: 'orange' }}>{user.name}</span>
+                      <span className="text-primary fw-semibold">
+                        {user.name}
+                      </span>
                     </NavDropdown.Header>
                   )}
-
                   <NavDropdown.Item
                     as={Link}
                     to="/register"
                     onClick={handleCloseOffcanvas}
+                    className="py-2"
                   >
                     {user ? '회원정보' : '회원가입'}
                   </NavDropdown.Item>
-
                   {user && (
-                    <NavDropdown.Item eventKey="logout" onClick={handleLogout}>
+                    <NavDropdown.Item
+                      eventKey="logout"
+                      onClick={handleLogout}
+                      className="py-2 text-danger"
+                    >
                       로그아웃
                     </NavDropdown.Item>
                   )}
                 </NavDropdown>
               </Nav>
-
-              <Form className="d-flex">
+              <Form className="d-flex mt-3 mt-md-0">
                 <Form.Control
                   type="search"
                   placeholder="할일 검색"
-                  className="me-2"
+                  className="me-2 rounded-pill border-secondary-subtle"
                   aria-label="Search"
                 />
-                <Button variant="outline-dark">🔍</Button>
+                <Button variant="primary" className="rounded-pill px-3">
+                  🔍
+                </Button>
               </Form>
             </Offcanvas.Body>
           </Navbar.Offcanvas>
