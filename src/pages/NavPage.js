@@ -34,7 +34,9 @@ export const NavPage = ({ user, setUser }) => {
     <>
       <Navbar key={`md`} expand={`md`} className="bg-body-tertiary mb-3">
         <Container fluid>
-          <Navbar.Brand href="/">Todo List</Navbar.Brand>
+          <Navbar.Brand as={Link} to="/">
+            Todo List
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-md`} />
           <Navbar.Offcanvas
             id={`offcanvasNavbar-expand-md`}
