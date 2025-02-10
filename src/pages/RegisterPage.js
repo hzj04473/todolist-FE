@@ -23,6 +23,9 @@ function RegisterPage({ user, setUser, keyword }) {
   const clickPasswordcheck = async () => {
     try {
       if (user) {
+        if (passwordConfirm.length === 0) {
+          throw new Error('비밀번호를 확인하여 주세요.');
+        }
         // console.log('비밀번호 체크');
         const response = await api.post('/user/passwordConfirm', {
           email,
@@ -251,7 +254,7 @@ function RegisterPage({ user, setUser, keyword }) {
                   {user ? (
                     <>
                       <Button
-                        className="button-primary"
+                        className="custom-button"
                         type="submit"
                         disabled={!isMath}
                       >
@@ -269,9 +272,7 @@ function RegisterPage({ user, setUser, keyword }) {
                     </>
                   ) : (
                     <>
-                      <Button className="button-primary" type="submit">
-                        회원가입
-                      </Button>
+                      <Button type="submit">회원가입</Button>
                       <span>
                         <Link to="/login">로그인 페이지로 이동</Link>
                       </span>
