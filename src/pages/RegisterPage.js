@@ -7,6 +7,7 @@ import { Row, Col, Container } from 'react-bootstrap';
 
 import api from '../utils/api';
 import { Helmet } from 'react-helmet-async';
+import { NavPage } from './NavPage';
 
 function RegisterPage({ user, setUser, keyword }) {
   const [name, setName] = useState('');
@@ -141,26 +142,35 @@ function RegisterPage({ user, setUser, keyword }) {
         />
         <meta name="keywords" content="todo, react, 할일 목록" />
       </Helmet>
-      <Container className="mt-2">
-        <Row>
-          <Col>
-            <div className="display-center">
-              {error && <div className="red-error">{error}</div>}
-              <Form className="login-box" onSubmit={handleSubmit}>
-                <h1>회원가입</h1>
+      <Container fluid className="vh-100 p-0 bg-light">
+        <NavPage user={user} setUser={setUser} />
+        <Row className="justify-content-center align-items-center h-75 mx-0">
+          <Col xs={12} sm={8} md={6} lg={5}>
+            <div className="bg-white p-4 rounded shadow-sm">
+              {error && (
+                <div className="alert alert-danger" role="alert">
+                  {error}
+                </div>
+              )}
+              <Form onSubmit={handleSubmit}>
+                <h1 className="h3 mb-4 fw-bold text-center">
+                  {user ? '회원정보 수정' : '회원가입'}
+                </h1>
+
                 <Form.Group className="mb-3" controlId="formName">
-                  <Form.Label>이름</Form.Label>
+                  <Form.Label className="fw-semibold">이름</Form.Label>
                   <Form.Control
                     type="string"
                     placeholder="이름을 입력해 주세요"
                     onChange={(event) => setName(event.target.value)}
                     value={name}
                     autoComplete="off"
+                    className="py-2"
                   />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                  <Form.Label>이메일</Form.Label>
+                  <Form.Label className="fw-semibold">이메일</Form.Label>
                   <Form.Control
                     type="email"
                     placeholder="이메일을 입력해 주세요."
@@ -168,67 +178,42 @@ function RegisterPage({ user, setUser, keyword }) {
                     value={email}
                     autoComplete="off"
                     disabled={user && !isMath}
+                    className="py-2"
                   />
                 </Form.Group>
-                {user ? (
-                  <>
-                    <Form.Group
-                      className="mb-3"
-                      controlId="formConfirnPassword"
-                    >
-                      <Form.Label>비밀번호 확인</Form.Label>
-                      <div className="d-flex align-items-center">
-                        <Form.Control
-                          type="password"
-                          placeholder="비밀번호를 입력해 주세요."
-                          onChange={(event) =>
-                            setPasswordConfirm(event.target.value)
-                          }
-                          value={passwordConfirm}
-                          autoComplete="off"
-                          className="me-2 flex-grow-1" // 버튼과 간격 추가
-                        />
 
-                        {isMath ? (
-                          <>
-                            <Button
-                              type="button"
-                              style={{
-                                backgroundColor: '#efefef',
-                                color: 'white',
-                                border: 'none',
-                              }}
-                              className="button-primary text-nowrap px-3"
-                              onClick={() => clickPasswordcheck()}
-                            >
-                              비밀번호 체크 완료
-                            </Button>
-                          </>
-                        ) : (
-                          <>
-                            <Button
-                              type="button"
-                              style={{
-                                backgroundColor: '#ff5733',
-                                color: 'white',
-                                border: 'none',
-                              }}
-                              className="button-primary text-nowrap px-3"
-                              onClick={() => clickPasswordcheck()}
-                            >
-                              비밀번호 확인
-                            </Button>
-                          </>
-                        )}
-                      </div>
-                    </Form.Group>
-                  </>
-                ) : (
-                  ''
+                {user && (
+                  <Form.Group className="mb-3" controlId="formConfirnPassword">
+                    <Form.Label className="fw-semibold">
+                      현재 비밀번호 확인
+                    </Form.Label>
+                    <div className="d-flex gap-2">
+                      <Form.Control
+                        type="password"
+                        placeholder="현재 비밀번호를 입력해 주세요."
+                        onChange={(event) =>
+                          setPasswordConfirm(event.target.value)
+                        }
+                        value={passwordConfirm}
+                        autoComplete="off"
+                        className="py-2"
+                      />
+                      <Button
+                        type="button"
+                        variant={isMath ? 'secondary' : 'danger'}
+                        className="text-nowrap px-3"
+                        onClick={clickPasswordcheck}
+                      >
+                        {isMath ? '비밀번호 체크 완료' : '비밀번호 확인'}
+                      </Button>
+                    </div>
+                  </Form.Group>
                 )}
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
-                  <Form.Label>새로운 비밀번호</Form.Label>
+                  <Form.Label className="fw-semibold">
+                    {user ? '새로운 비밀번호' : '비밀번호'}
+                  </Form.Label>
                   <Form.Control
                     type="password"
                     placeholder="비밀번호를 입력해 주세요."
@@ -236,11 +221,15 @@ function RegisterPage({ user, setUser, keyword }) {
                     value={password}
                     autoComplete="off"
                     disabled={user && !isMath}
+                    className="py-2"
                   />
                 </Form.Group>
 
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                  <Form.Label>비밀번호 확인</Form.Label>
+                <Form.Group
+                  className="mb-4"
+                  controlId="formBasicPasswordConfirm"
+                >
+                  <Form.Label className="fw-semibold">비밀번호 확인</Form.Label>
                   <Form.Control
                     type="password"
                     placeholder="비밀번호를 다시 한번 입력해 주세요."
@@ -248,34 +237,40 @@ function RegisterPage({ user, setUser, keyword }) {
                     value={secPassword}
                     autoComplete="off"
                     disabled={user && !isMath}
+                    className="py-2"
                   />
                 </Form.Group>
-                <div className="button-box">
+
+                <div className="d-grid gap-2">
                   {user ? (
                     <>
                       <Button
-                        className="custom-button"
+                        variant="primary"
                         type="submit"
+                        size="lg"
                         disabled={!isMath}
                       >
                         회원정보 수정
                       </Button>
-                      <span>
-                        <Link
-                          onClick={() => {
-                            handleLogout();
-                          }}
-                        >
-                          로그아웃
-                        </Link>
-                      </span>
+                      <Button
+                        variant="outline-danger"
+                        onClick={handleLogout}
+                        size="lg"
+                      >
+                        로그아웃
+                      </Button>
                     </>
                   ) : (
                     <>
-                      <Button type="submit">회원가입</Button>
-                      <span>
-                        <Link to="/login">로그인 페이지로 이동</Link>
-                      </span>
+                      <Button variant="primary" type="submit" size="lg">
+                        회원가입
+                      </Button>
+                      <Link
+                        to="/login"
+                        className="btn btn-outline-secondary btn-lg text-decoration-none"
+                      >
+                        로그인 페이지로 이동
+                      </Link>
                     </>
                   )}
                 </div>
