@@ -1,22 +1,58 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import { Link, useNavigate } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Container from 'react-bootstrap/Container';
+import { Row, Col, Container } from 'react-bootstrap';
 
 import api from '../utils/api';
 import { Helmet } from 'react-helmet-async';
 
-function RegisterPage() {
+function RegisterPage({ user, setUser, keyword }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [secPassword, setSecpassword] = useState('');
   const [error, setError] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
+
+  // 비밀번호 체크 유무
+  const [isMath, setIsMath] = useState(false);
   const navigate = useNavigate();
+
+  const clickPasswordcheck = async () => {
+    try {
+      if (user) {
+        // console.log('비밀번호 체크');
+        const response = await api.post('/user/passwordConfirm', {
+          email,
+          passwordConfirm,
+        });
+        if (response.status === 200) {
+          setIsMath(response.data.isMath);
+        }
+      } else {
+        throw new Error('현재 로그인이 되어 있지 않습니다.');
+      }
+    } catch (error) {
+      setError(error.message);
+    }
+  };
+  // console.log('비밀번호가 맞나요 >>> ', isMath);
+
+  const handleLogout = async () => {
+    try {
+      sessionStorage.removeItem('token');
+      const response = await api.post('/user/logout');
+
+      if (response.status === 200) {
+        setUser(null);
+        navigate('/'); // 로그아웃 후 '/' 경로로 리디렉션
+      }
+    } catch (error) {
+      console.error('Logout error:', error);
+    }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -25,21 +61,61 @@ function RegisterPage() {
         throw new Error('패스워드가 일치 하지 않습니다. 다시 입력해 주세요.');
       }
       // api
-      const response = await api.post('/user', {
-        name,
-        email,
-        password,
-      });
-      // console.log(response);
-      if (response.status === 201) {
-        navigate('/login');
+      if (user) {
+        const response = await api.post('/user/edit', {
+          name,
+          email,
+          password,
+          isMath,
+        });
+
+        if (response.status === 200) {
+          setUser((prevUser) => ({
+            ...prevUser,
+            name: name, // 수정된 이름 반영
+          }));
+
+          // console.log('edit success', user);
+          setPasswordConfirm('');
+          setPassword('');
+          setSecpassword('');
+          setIsMath(false);
+
+          // handleLogout();
+          navigate('/register');
+        } else {
+          throw new Error(response.data.error);
+        }
       } else {
-        throw new Error(response.data.error);
+        const response = await api.post('/user', {
+          name,
+          email,
+          password,
+        });
+        // console.log(response);
+        if (response.status === 201) {
+          navigate('/login');
+        } else {
+          throw new Error(response.data.error);
+        }
       }
     } catch (error) {
       setError(error.message);
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      setName(user.name);
+      setEmail(user.email);
+      setError('');
+    }
+  }, [user]);
+
+  useEffect(() => {
+    setIsMath(false);
+    setError('');
+  }, [passwordConfirm]);
 
   return (
     <>
@@ -62,7 +138,7 @@ function RegisterPage() {
         />
         <meta name="keywords" content="todo, react, 할일 목록" />
       </Helmet>
-      <Container>
+      <Container className="mt-2">
         <Row>
           <Col>
             <div className="display-center">
@@ -88,17 +164,75 @@ function RegisterPage() {
                     onChange={(event) => setEmail(event.target.value)}
                     value={email}
                     autoComplete="off"
+                    disabled={user && !isMath}
                   />
                 </Form.Group>
+                {user ? (
+                  <>
+                    <Form.Group
+                      className="mb-3"
+                      controlId="formConfirnPassword"
+                    >
+                      <Form.Label>비밀번호 확인</Form.Label>
+                      <div className="d-flex align-items-center">
+                        <Form.Control
+                          type="password"
+                          placeholder="비밀번호를 입력해 주세요."
+                          onChange={(event) =>
+                            setPasswordConfirm(event.target.value)
+                          }
+                          value={passwordConfirm}
+                          autoComplete="off"
+                          className="me-2 flex-grow-1" // 버튼과 간격 추가
+                        />
+
+                        {isMath ? (
+                          <>
+                            <Button
+                              type="button"
+                              style={{
+                                backgroundColor: '#efefef',
+                                color: 'white',
+                                border: 'none',
+                              }}
+                              className="button-primary text-nowrap px-3"
+                              onClick={() => clickPasswordcheck()}
+                            >
+                              비밀번호 체크 완료
+                            </Button>
+                          </>
+                        ) : (
+                          <>
+                            <Button
+                              type="button"
+                              style={{
+                                backgroundColor: '#ff5733',
+                                color: 'white',
+                                border: 'none',
+                              }}
+                              className="button-primary text-nowrap px-3"
+                              onClick={() => clickPasswordcheck()}
+                            >
+                              비밀번호 확인
+                            </Button>
+                          </>
+                        )}
+                      </div>
+                    </Form.Group>
+                  </>
+                ) : (
+                  ''
+                )}
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">
-                  <Form.Label>비밀번호</Form.Label>
+                  <Form.Label>새로운 비밀번호</Form.Label>
                   <Form.Control
                     type="password"
                     placeholder="비밀번호를 입력해 주세요."
                     onChange={(event) => setPassword(event.target.value)}
                     value={password}
                     autoComplete="off"
+                    disabled={user && !isMath}
                   />
                 </Form.Group>
 
@@ -110,15 +244,39 @@ function RegisterPage() {
                     onChange={(event) => setSecpassword(event.target.value)}
                     value={secPassword}
                     autoComplete="off"
+                    disabled={user && !isMath}
                   />
                 </Form.Group>
                 <div className="button-box">
-                  <Button className="button-primary" type="submit">
-                    회원가입
-                  </Button>
-                  <span>
-                    <Link to="/login">로그인 페이지로 이동</Link>
-                  </span>
+                  {user ? (
+                    <>
+                      <Button
+                        className="button-primary"
+                        type="submit"
+                        disabled={!isMath}
+                      >
+                        회원정보 수정
+                      </Button>
+                      <span>
+                        <Link
+                          onClick={() => {
+                            handleLogout();
+                          }}
+                        >
+                          로그아웃
+                        </Link>
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <Button className="button-primary" type="submit">
+                        회원가입
+                      </Button>
+                      <span>
+                        <Link to="/login">로그인 페이지로 이동</Link>
+                      </span>
+                    </>
+                  )}
                 </div>
               </Form>
             </div>
