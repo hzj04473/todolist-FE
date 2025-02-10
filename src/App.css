@@ -92,11 +92,11 @@ body {
   justify-content: space-between;
 }
 
-.button-primary {
+/* .button-primary {
   background-color: lightblue;
   color: #ffffff;
   border: none;
-}
+} */
 
 .red-error {
   color: red;
@@ -110,4 +110,22 @@ body {
   box-orient: vertical; /* 표준 속성 */
   text-overflow: ellipsis;
   word-wrap: break-word;
+}
+
+.text-truncate-title-multiline {
+  min-height: 50px; /* 최소 높이 설정 */
+  max-height: 70px; /* 최대 높이 설정 */
+  overflow: hidden;
+  display: -webkit-box;
+  line-clamp: 2; /* 표준 속성 */
+  box-orient: vertical; /* 표준 속성 */
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+}
+
+.custom-button:disabled {
+  background-color: #d6d6d6; /* 비활성화된 배경색 */
+  color: #888; /* 비활성화된 텍스트 색 */
+  border-color: #ccc; /* 비활성화된 테두리 색 */
+  cursor: not-allowed; /* 마우스 커서 */
 }
