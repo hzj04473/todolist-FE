@@ -11,6 +11,7 @@ import { Link, useNavigate, Navigate } from 'react-router-dom';
 import api from '../utils/api';
 
 import { Helmet } from 'react-helmet-async';
+import { NavPage } from './NavPage';
 
 function LoginPage({ user, setUser }) {
   const [email, setEmail] = useState('hzj04473@todo.com');
@@ -73,39 +74,55 @@ function LoginPage({ user, setUser }) {
         <meta name="keywords" content="todo, react, 할일 목록" />
       </Helmet>
 
-      <Container className="mt-2">
-        <Row>
-          <Col>
-            <div className="display-center">
-              {error && <div className="red-error">{error}</div>}
-              <Form className="login-box" onSubmit={handleLogin}>
-                <h1>로그인</h1>
+      <Container fluid className="vh-100 p-0 bg-light">
+        <NavPage user={user} setUser={setUser} />
+        <Row className="justify-content-center align-items-center h-75 mx-0">
+          <Col xs={12} sm={8} md={6} lg={4}>
+            <div className="bg-white p-4 rounded shadow-sm">
+              {error && (
+                <div className="alert alert-danger" role="alert">
+                  {error}
+                </div>
+              )}
+              <Form onSubmit={handleLogin}>
+                <h1 className="h3 mb-4 fw-bold text-center">로그인</h1>
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                  <Form.Label>이메일</Form.Label>
+                  <Form.Label className="fw-semibold">이메일</Form.Label>
                   <Form.Control
                     type="email"
                     placeholder="이메일을 입력해 주세요."
                     onChange={(event) => setEmail(event.target.value)}
                     value={email}
+                    className="py-2"
                   />
                 </Form.Group>
 
-                <Form.Group className="mb-3" controlId="formBasicPassword">
-                  <Form.Label>비밀번호</Form.Label>
+                <Form.Group className="mb-4" controlId="formBasicPassword">
+                  <Form.Label className="fw-semibold">비밀번호</Form.Label>
                   <Form.Control
                     type="password"
                     placeholder="비밀번호를 입력해 주세요."
                     onChange={(event) => setPassword(event.target.value)}
                     value={password}
+                    className="py-2"
                   />
                 </Form.Group>
-                <div className="button-box">
-                  <Button type="submit" className="button-primary">
+
+                <div className="d-grid gap-2">
+                  <Button
+                    variant="primary"
+                    type="submit"
+                    size="lg"
+                    className="mb-3"
+                  >
                     로그인
                   </Button>
-                  <span>
-                    계정이 없다면? <Link to="/register">회원가입 하기</Link>
-                  </span>
+                  <p className="text-center mb-0">
+                    계정이 없다면?{' '}
+                    <Link to="/register" className="text-decoration-none">
+                      회원가입 하기
+                    </Link>
+                  </p>
                 </div>
               </Form>
             </div>
