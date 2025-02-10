@@ -8,7 +8,6 @@ import LoginPage from './pages/LoginPage';
 import { useCallback, useEffect, useState } from 'react';
 import PrivateRoute from './route/PrivateRoute';
 import api from './utils/api';
-import { NavPage } from './pages/NavPage';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -31,7 +30,6 @@ function App() {
 
   return (
     <>
-      <NavPage user={user} setUser={setUser} />
       <Routes>
         {/* Private Router */}
         <Route
@@ -42,6 +40,7 @@ function App() {
             </PrivateRoute>
           }
         />
+
         <Route
           path="/register"
           element={<RegisterPage user={user} setUser={setUser} />}
