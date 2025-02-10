@@ -10,7 +10,7 @@ import {
   Offcanvas,
 } from 'react-bootstrap';
 import api from '../utils/api';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 export const NavPage = ({ user, setUser }) => {
   // console.log('navi user >>>>', user);
@@ -71,9 +71,13 @@ export const NavPage = ({ user, setUser }) => {
                   ) : (
                     ''
                   )}
-                  <NavDropdown.Item href="/register">
+                  <NavDropdown.Item as={Link} to="/register">
                     {user ? '회원정보' : '회원가입'}
                   </NavDropdown.Item>
+
+                  {/* <NavDropdown.Item href="/register">
+                    {user ? '회원정보' : '회원가입'}
+                  </NavDropdown.Item> */}
                   {user ? (
                     <NavDropdown.Item eventKey="logout" onClick={handleLogout}>
                       로그아웃
