@@ -28,7 +28,7 @@ function TodoPage({ user, setUser }) {
   const getTask = useCallback(async () => {
     try {
       const response = await api.get('/tasks');
-      console.log('처음 데이터 >>>', response.data.data);
+      // console.log('처음 데이터 >>>', response.data.data);
       if (response.status === 200) {
         setTodoList(response.data.data);
       } else {
@@ -213,7 +213,7 @@ function TodoPage({ user, setUser }) {
                 className="input-box"
                 value={todoValue.task}
                 onChange={(event) => {
-                  console.log('todoValue', todoValue);
+                  // console.log('todoValue', todoValue);
                   setTodoValue({ ...todoValue, task: event.target.value });
                 }}
               />
