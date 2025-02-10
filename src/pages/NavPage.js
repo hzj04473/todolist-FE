@@ -1,5 +1,4 @@
-import React from 'react';
-
+import React, { useState } from 'react';
 import {
   Button,
   Container,
@@ -13,8 +12,11 @@ import api from '../utils/api';
 import { useNavigate, Link } from 'react-router-dom';
 
 export const NavPage = ({ user, setUser }) => {
-  // console.log('navi user >>>>', user);
   const navigate = useNavigate();
+  const [showOffcanvas, setShowOffcanvas] = useState(false);
+
+  const handleCloseOffcanvas = () => setShowOffcanvas(false);
+  const handleShowOffcanvas = () => setShowOffcanvas(true);
 
   const handleLogout = async () => {
     try {
@@ -23,7 +25,8 @@ export const NavPage = ({ user, setUser }) => {
 
       if (response.status === 200) {
         setUser(null);
-        navigate('/'); // 로그아웃 후 '/' 경로로 리디렉션
+        navigate('/');
+        handleCloseOffcanvas(); // 로그아웃 후 메뉴 닫기
       }
     } catch (error) {
       console.error('Logout error:', error);
@@ -32,64 +35,69 @@ export const NavPage = ({ user, setUser }) => {
 
   return (
     <>
-      <Navbar key={`md`} expand={`md`} className="bg-body-tertiary mb-3">
+      <Navbar expand="md" className="bg-body-tertiary mb-3">
         <Container fluid>
           <Navbar.Brand as={Link} to="/">
             Todo List
           </Navbar.Brand>
-          <Navbar.Toggle aria-controls={`offcanvasNavbar-expand-md`} />
+          <Navbar.Toggle
+            aria-controls="offcanvasNavbar"
+            onClick={handleShowOffcanvas}
+          />
           <Navbar.Offcanvas
-            id={`offcanvasNavbar-expand-md`}
-            aria-labelledby={`offcanvasNavbarLabel-expand-md`}
+            show={showOffcanvas}
+            onHide={handleCloseOffcanvas}
+            id="offcanvasNavbar"
+            aria-labelledby="offcanvasNavbarLabel"
             placement="end"
           >
             <Offcanvas.Header closeButton>
-              <Offcanvas.Title id={`offcanvasNavbarLabel-expand-md`}>
+              <Offcanvas.Title id="offcanvasNavbarLabel">
                 Todo List
               </Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Nav className="justify-content-end flex-grow-1">
                 {user ? (
-                  <Nav.Link as={Link} to="/">
+                  <Nav.Link as={Link} to="/" onClick={handleCloseOffcanvas}>
                     나의 할일
                   </Nav.Link>
                 ) : (
-                  <Nav.Link as={Link} to="/login">
+                  <Nav.Link
+                    as={Link}
+                    to="/login"
+                    onClick={handleCloseOffcanvas}
+                  >
                     로그인
                   </Nav.Link>
                 )}
 
                 <NavDropdown
                   title="마이페이지"
-                  id={`offcanvasNavbarDropdown-expand-md`}
+                  id="offcanvasNavbarDropdown"
                   onSelect={(eventKey) => {
                     if (eventKey === 'logout') handleLogout();
                   }}
                 >
-                  {user ? (
-                    <>
-                      <NavDropdown.Header>
-                        환영합니다.
-                        <span style={{ color: 'orange' }}>{user.name}</span>
-                      </NavDropdown.Header>
-                    </>
-                  ) : (
-                    ''
+                  {user && (
+                    <NavDropdown.Header>
+                      환영합니다.{' '}
+                      <span style={{ color: 'orange' }}>{user.name}</span>
+                    </NavDropdown.Header>
                   )}
-                  <NavDropdown.Item as={Link} to="/register">
+
+                  <NavDropdown.Item
+                    as={Link}
+                    to="/register"
+                    onClick={handleCloseOffcanvas}
+                  >
                     {user ? '회원정보' : '회원가입'}
                   </NavDropdown.Item>
 
-                  {/* <NavDropdown.Item href="/register">
-                    {user ? '회원정보' : '회원가입'}
-                  </NavDropdown.Item> */}
-                  {user ? (
+                  {user && (
                     <NavDropdown.Item eventKey="logout" onClick={handleLogout}>
                       로그아웃
                     </NavDropdown.Item>
-                  ) : (
-                    ''
                   )}
                 </NavDropdown>
               </Nav>
