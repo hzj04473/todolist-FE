@@ -1,7 +1,5 @@
 import React from 'react';
-import Col from 'react-bootstrap/Col';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
+import { Col, Card, Button } from 'react-bootstrap';
 
 const TodoItem = ({ item, onDelete, toggleCompleteTask, formatDate }) => {
   // console.log(item.author.name || 'undefined');
@@ -12,9 +10,9 @@ const TodoItem = ({ item, onDelete, toggleCompleteTask, formatDate }) => {
           <Card.Title className="text-truncate-title-multiline">
             {item.task}
           </Card.Title>
-          <Card.Subtitle className="mt-3 mb-3">
+          <Card.Text className="mt-3 mb-3">
             {formatDate(item.dueStartDate)} ~ {formatDate(item.dueEndDate)}
-          </Card.Subtitle>
+          </Card.Text>
           <Card.Text>작성자 : {item.author?.name || '-'}</Card.Text>
           <Card.Text
             style={{ opacity: 0.5 }}

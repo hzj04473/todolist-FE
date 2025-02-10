@@ -19,7 +19,7 @@ function TodoPage({ user, setUser }) {
   const formatDate = useCallback((dateString) => {
     const date = new Date(dateString); // '2025-01-27T07:09:25.203Z' 형식의 문자열을 Date 객체로 변환
     // console.log(date);
-    const year = date.getFullYear(); // 연도
+    const year = date.getFullYear().toString().substring(2, 4); // 연도
     const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월 (0부터 시작하므로 +1 해주고, 2자리로 만들기 위해 padStart 사용)
     const day = date.getDate().toString().padStart(2, '0'); // 일 (2자리로 맞추기)
 
