@@ -2,44 +2,36 @@ import React from 'react';
 import { Col, Card, Button } from 'react-bootstrap';
 
 const TodoItem = ({ item, onDelete, toggleCompleteTask, formatDate }) => {
-  // console.log(item.author.name || 'undefined');
   return (
-    <Col xs={12} sm={6} md={4}>
-      <Card className="mb-3" bg={item.isComplete ? 'success' : ''}>
+    <Col>
+      <Card className="mb-3 shadow-sm">
         <Card.Body>
-          <Card.Title className="text-truncate-title-multiline">
+          <Card.Title className="text-truncate-title fw-bold">
             {item.task}
           </Card.Title>
-          <Card.Text className="mt-3 mb-3">
+          <Card.Text className="text-muted">
             {formatDate(item.dueStartDate)} ~ {formatDate(item.dueEndDate)}
           </Card.Text>
-          <Card.Text>작성자 : {item.author?.name || '-'}</Card.Text>
-          <Card.Text
-            style={{ opacity: 0.5 }}
-            className="p-2 mb-1 bg-primary text-white"
-          >
-            Ai Gemini
-          </Card.Text>
-          <Card.Text className="flex-grow-1 mt-3 text-truncate-multiline">
+          <Card.Text>작성자: {item.author?.name || '-'}</Card.Text>
+          <Card.Text className="text-truncate-summary bg-light p-2 rounded">
             {item.geminiMessage}
           </Card.Text>
-
-          <Card.Body className="d-flex gap-2">
+          <div className="d-grid gap-2 mt-3">
             <Button
               variant="danger"
-              className="flex-grow-2"
               onClick={() => onDelete(item._id)}
+              className="w-100"
             >
               삭제
             </Button>
             <Button
-              variant={item.isComplete ? 'outline-warning' : 'outline-success'}
-              className="flex-grow-1"
+              variant={item.isComplete ? 'warning' : 'success'}
               onClick={() => toggleCompleteTask(item._id)}
+              className="w-100"
             >
               {item.isComplete ? '미완료' : '완료'}
             </Button>
-          </Card.Body>
+          </div>
         </Card.Body>
       </Card>
     </Col>

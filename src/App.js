@@ -1,4 +1,3 @@
-// bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
@@ -8,6 +7,7 @@ import LoginPage from './pages/LoginPage';
 import { useCallback, useEffect, useState } from 'react';
 import PrivateRoute from './route/PrivateRoute';
 import api from './utils/api';
+import { Container } from 'react-bootstrap'; // 추가
 
 function App() {
   const [user, setUser] = useState(null);
@@ -16,7 +16,6 @@ function App() {
       const storedToken = sessionStorage.getItem('token');
       if (storedToken) {
         const response = await api.get('/user/me');
-        // console.log('storedToken >>>>', response);
         setUser(response.data.user);
       }
     } catch (error) {
@@ -29,7 +28,8 @@ function App() {
   }, [getUser]);
 
   return (
-    <>
+    <Container fluid className="p-0">
+      {/* 추가: 전체 레이아웃을 Container로 감싸기 */}
       <Routes>
         {/* Private Router */}
         <Route
@@ -40,7 +40,6 @@ function App() {
             </PrivateRoute>
           }
         />
-
         <Route
           path="/register"
           element={<RegisterPage user={user} setUser={setUser} />}
@@ -50,7 +49,7 @@ function App() {
           element={<LoginPage user={user} setUser={setUser} />}
         />
       </Routes>
-    </>
+    </Container>
   );
 }
 

@@ -1,14 +1,19 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import TodoBoard from '../components/TodoBoard';
 import api from '../utils/api';
-import { Container, Row, Col, Form, FloatingLabel } from 'react-bootstrap';
-
+import {
+  Container,
+  Row,
+  Col,
+  Form,
+  FloatingLabel,
+  Button,
+} from 'react-bootstrap';
 import { Helmet } from 'react-helmet-async';
 import { NavPage } from './NavPage';
 
 function TodoPage({ user, setUser }) {
   const [todoList, setTodoList] = useState([]);
-
   const [todoValue, setTodoValue] = useState({
     task: '',
     isComplete: false,
@@ -17,19 +22,16 @@ function TodoPage({ user, setUser }) {
   });
 
   const formatDate = useCallback((dateString) => {
-    const date = new Date(dateString); // '2025-01-27T07:09:25.203Z' 형식의 문자열을 Date 객체로 변환
-    // console.log(date);
-    const year = date.getFullYear().toString().substring(2, 4); // 연도
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 월 (0부터 시작하므로 +1 해주고, 2자리로 만들기 위해 padStart 사용)
-    const day = date.getDate().toString().padStart(2, '0'); // 일 (2자리로 맞추기)
-
-    return `${year}.${month}.${day}`; // 원하는 형식으로 반환
+    const date = new Date(dateString);
+    const year = date.getFullYear().toString().substring(2, 4);
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}.${month}.${day}`;
   }, []);
 
   const getTask = useCallback(async () => {
     try {
       const response = await api.get('/tasks');
-      // console.log('처음 데이터 >>>', response.data.data);
       if (response.status === 200) {
         setTodoList(response.data.data);
       } else {
@@ -41,13 +43,10 @@ function TodoPage({ user, setUser }) {
   }, []);
 
   const addTask = useCallback(async () => {
-    // console.log(todoValue.dueStartDate.trim());
-    // console.log(todoValue.dueEndDate.trim());
     if (!todoValue.dueStartDate.trim()) {
       alert('시작 일자를 입력하여 주세요.');
       return;
     }
-
     if (!todoValue.dueEndDate.trim()) {
       alert('종료 일자를 입력하여 주세요.');
       return;
@@ -66,14 +65,11 @@ function TodoPage({ user, setUser }) {
       });
 
       if (response.status === 201) {
-        // console.log('성공');
-        // 1. 입력한 값이 안 사라짐
         setTodoValue({
           task: '',
           dueStartDate: new Date().toISOString().substring(0, 10),
           dueEndDate: new Date().toISOString().substring(0, 10),
         });
-        // 2. 추가한 값이 안 보임
         getTask();
       } else {
         throw new Error('task can not be added');
@@ -86,13 +82,8 @@ function TodoPage({ user, setUser }) {
   const toggleCompleteTask = useCallback(
     async (itemId) => {
       try {
-        // console.log('isComplete Button Click', itemId);
-
         const response = await api.put(`/tasks/${itemId}`, {});
-
         if (response.status === 200) {
-          // console.log('isComplete response', response);
-          // console.log('update success');
           getTask();
         } else {
           throw new Error('task can not be update');
@@ -106,13 +97,10 @@ function TodoPage({ user, setUser }) {
 
   const deleteTask = useCallback(
     async (itemId) => {
-      if (window.confirm('이 Tddo list 를 삭제하시겠습니까?')) {
+      if (window.confirm('이 Todo list를 삭제하시겠습니까?')) {
         try {
-          // console.log('isDelete Button Click', itemId);
           const response = await api.delete(`/tasks/${itemId}`, {});
-          // console.log('isDelete response', response);
           if (response.status === 200) {
-            // console.log('delete success');
             getTask();
           } else {
             throw new Error('task can not be update');
@@ -121,13 +109,12 @@ function TodoPage({ user, setUser }) {
           console.error('isDelete Error : ', error);
         }
       } else {
-        alert('이 Tddo list 삭제가 취소되었습니다.');
+        alert('이 Todo list 삭제가 취소되었습니다.');
       }
     },
     [getTask]
   );
 
-  // 앱이 딱 시작이 될떄 실행 : useEffect()
   useEffect(() => {
     getTask();
   }, [getTask]);
@@ -136,109 +123,93 @@ function TodoPage({ user, setUser }) {
     <>
       <Helmet>
         <title>Todo List</title>
-        <title>{`Todo List`}</title>
         <meta
           name="description"
-          content={`React로 만든 Todo 리스트 애플리케이션입니다.`}
+          content="React로 만든 Todo 리스트 애플리케이션입니다."
         />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content={`${process.env.PUBLIC_URL}`} />
-        <meta name="og:title" content={`Todo List`} />
-        <meta
-          name="og:description"
-          content={`React로 만든 Todo 리스트 애플리케이션입니다.`}
-        />
-        <meta name="keywords" content="todo, react, 할일 목록" />
       </Helmet>
 
-      <Container className="mt-2">
+      <Container fluid className="p-0">
         <NavPage user={user} setUser={setUser} />
-        <Row className="add-item-row">
-          <Col xs={12} sm={10}>
-            <Row className="mb-3">
-              <Form.Group as={Col} controlId="formGridEmail">
-                <FloatingLabel
-                  controlId="floatingStartDate"
-                  label="시작 일자를 입력을 해 주세요."
-                  className="mb-3"
-                >
-                  <Form.Control
-                    type="date"
-                    placeholder="date"
-                    className="input-box"
-                    value={todoValue.dueStartDate}
-                    onChange={(event) => {
-                      // console.log('todoValue', todoValue);
-                      setTodoValue({
-                        ...todoValue,
-                        dueStartDate: event.target.value,
-                        dueEndDate: event.target.value,
-                      });
-                    }}
-                  />
-                </FloatingLabel>
-              </Form.Group>
-              <Form.Group as={Col} controlId="formGridEmail">
-                <FloatingLabel
-                  controlId="floatingEndDate"
-                  label="종료 일자를 입력을 해 주세요."
-                  className="mb-3"
-                >
-                  <Form.Control
-                    type="date"
-                    placeholder="date"
-                    className="input-box"
-                    value={
-                      !todoValue.dueEndDate
-                        ? todoValue.dueStartDate
-                        : todoValue.dueEndDate
-                    }
-                    onChange={(event) => {
-                      // console.log('todoValue', todoValue);
-                      setTodoValue({
-                        ...todoValue,
-                        dueEndDate: event.target.value,
-                      });
-                    }}
-                  />
-                </FloatingLabel>
-              </Form.Group>
-            </Row>
-            <FloatingLabel
-              controlId="floatingInput"
-              label="할일을 입력하세요"
-              className="mb-3"
-            >
-              <Form.Control
-                type="text"
-                placeholder="할일을 입력하세요"
-                className="input-box"
-                value={todoValue.task}
-                onChange={(event) => {
-                  // console.log('todoValue', todoValue);
-                  setTodoValue({ ...todoValue, task: event.target.value });
-                }}
-              />
-            </FloatingLabel>
-          </Col>
-          <Col xs={12} sm={2}>
-            <button
-              className="button-add mb-1 mt-1"
-              onClick={addTask}
-              onTouchStart={(e) => e.target.classList.add('btn-active')}
-              onBlur={(e) => e.target.classList.remove('btn-active')}
-            >
-              추가
-            </button>
-          </Col>
-        </Row>
+        <Container className="mt-4">
+          {/* 시작 일자 및 종료 일자 입력 필드 */}
+          <Row className="mb-3">
+            <Col xs={12} md={6}>
+              <FloatingLabel
+                controlId="floatingStartDate"
+                label="시작 일자"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="date"
+                  value={todoValue.dueStartDate}
+                  onChange={(event) =>
+                    setTodoValue({
+                      ...todoValue,
+                      dueStartDate: event.target.value,
+                      dueEndDate: event.target.value,
+                    })
+                  }
+                />
+              </FloatingLabel>
+            </Col>
+            <Col xs={12} md={6}>
+              <FloatingLabel
+                controlId="floatingEndDate"
+                label="종료 일자"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="date"
+                  value={todoValue.dueEndDate}
+                  onChange={(event) =>
+                    setTodoValue({
+                      ...todoValue,
+                      dueEndDate: event.target.value,
+                    })
+                  }
+                />
+              </FloatingLabel>
+            </Col>
+          </Row>
 
-        <TodoBoard
-          todoList={todoList}
-          onDelete={deleteTask}
-          toggleCompleteTask={toggleCompleteTask}
-          formatDate={formatDate}
-        />
+          {/* 할일 입력 필드 및 추가 버튼 */}
+          <Row className="mb-4">
+            <Col xs={12} md={10}>
+              <FloatingLabel
+                controlId="floatingTask"
+                label="할일을 입력하세요"
+                className="mb-3"
+              >
+                <Form.Control
+                  type="text"
+                  placeholder="할일을 입력하세요"
+                  value={todoValue.task}
+                  onChange={(event) =>
+                    setTodoValue({ ...todoValue, task: event.target.value })
+                  }
+                />
+              </FloatingLabel>
+            </Col>
+            <Col xs={12} md={2}>
+              <Button
+                variant="primary"
+                onClick={addTask}
+                className="w-100 py-2"
+                style={{ height: '58px' }}
+              >
+                추가
+              </Button>
+            </Col>
+          </Row>
+
+          <TodoBoard
+            todoList={todoList}
+            onDelete={deleteTask}
+            toggleCompleteTask={toggleCompleteTask}
+            formatDate={formatDate}
+          />
+        </Container>
       </Container>
     </>
   );

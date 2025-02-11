@@ -1,23 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import Button from 'react-bootstrap/Button';
+import { Button, Form, Row, Col, Container, Alert } from 'react-bootstrap'; // Alert 추가
 import { Link, useNavigate } from 'react-router-dom';
-import Form from 'react-bootstrap/Form';
-
-import { Row, Col, Container } from 'react-bootstrap';
-
 import api from '../utils/api';
 import { Helmet } from 'react-helmet-async';
 import { NavPage } from './NavPage';
 
-function RegisterPage({ user, setUser, keyword }) {
+function RegisterPage({ user, setUser }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [secPassword, setSecpassword] = useState('');
   const [error, setError] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
-
-  // 비밀번호 체크 유무
   const [isMath, setIsMath] = useState(false);
   const navigate = useNavigate();
 
@@ -27,7 +21,6 @@ function RegisterPage({ user, setUser, keyword }) {
         if (passwordConfirm.length === 0) {
           throw new Error('비밀번호를 확인하여 주세요.');
         }
-        // console.log('비밀번호 체크');
         const response = await api.post('/user/passwordConfirm', {
           email,
           passwordConfirm,
@@ -42,16 +35,14 @@ function RegisterPage({ user, setUser, keyword }) {
       setError(error.message);
     }
   };
-  // console.log('비밀번호가 맞나요 >>> ', isMath);
 
   const handleLogout = async () => {
     try {
       sessionStorage.removeItem('token');
       const response = await api.post('/user/logout');
-
       if (response.status === 200) {
         setUser(null);
-        navigate('/'); // 로그아웃 후 '/' 경로로 리디렉션
+        navigate('/');
       }
     } catch (error) {
       console.error('Logout error:', error);
@@ -62,9 +53,8 @@ function RegisterPage({ user, setUser, keyword }) {
     event.preventDefault();
     try {
       if (password !== secPassword) {
-        throw new Error('패스워드가 일치 하지 않습니다. 다시 입력해 주세요.');
+        throw new Error('패스워드가 일치하지 않습니다. 다시 입력해 주세요.');
       }
-      // api
       if (user) {
         const response = await api.post('/user/edit', {
           name,
@@ -72,20 +62,15 @@ function RegisterPage({ user, setUser, keyword }) {
           password,
           isMath,
         });
-
         if (response.status === 200) {
           setUser((prevUser) => ({
             ...prevUser,
-            name: name, // 수정된 이름 반영
+            name: name,
           }));
-
-          // console.log('edit success', user);
           setPasswordConfirm('');
           setPassword('');
           setSecpassword('');
           setIsMath(false);
-
-          // handleLogout();
           navigate('/register');
         } else {
           throw new Error(response.data.error);
@@ -96,7 +81,6 @@ function RegisterPage({ user, setUser, keyword }) {
           email,
           password,
         });
-        // console.log(response);
         if (response.status === 201) {
           navigate('/login');
         } else {
@@ -124,34 +108,20 @@ function RegisterPage({ user, setUser, keyword }) {
   return (
     <>
       <Helmet>
-        <title>Todo List</title>
-        <title>{`Todo List | 회원가입 페이지`}</title>
+        <title>Todo List | 회원가입 페이지</title>
         <meta
           name="description"
-          content={`React로 만든 Todo 리스트 애플리케이션입니다.`}
+          content="React로 만든 Todo 리스트 애플리케이션입니다."
         />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:url"
-          content={`${process.env.PUBLIC_URL}/register`}
-        />
-        <meta name="og:title" content={`Todo List | 회원가입 페이지`} />
-        <meta
-          name="og:description"
-          content={`React로 만든 Todo 리스트 애플리케이션입니다.`}
-        />
-        <meta name="keywords" content="todo, react, 할일 목록" />
       </Helmet>
+
       <Container fluid className="vh-100 p-0 bg-light">
         <NavPage user={user} setUser={setUser} />
         <Row className="justify-content-center align-items-center h-75 mx-0">
           <Col xs={12} sm={8} md={6} lg={5}>
             <div className="bg-white p-4 rounded shadow-sm">
-              {error && (
-                <div className="alert alert-danger" role="alert">
-                  {error}
-                </div>
-              )}
+              {error && <Alert variant="danger">{error}</Alert>}{' '}
+              {/* Alert로 변경 */}
               <Form onSubmit={handleSubmit}>
                 <h1 className="h3 mb-4 fw-bold text-center">
                   {user ? '회원정보 수정' : '회원가입'}
@@ -160,7 +130,7 @@ function RegisterPage({ user, setUser, keyword }) {
                 <Form.Group className="mb-3" controlId="formName">
                   <Form.Label className="fw-semibold">이름</Form.Label>
                   <Form.Control
-                    type="string"
+                    type="text"
                     placeholder="이름을 입력해 주세요"
                     onChange={(event) => setName(event.target.value)}
                     value={name}
@@ -183,7 +153,7 @@ function RegisterPage({ user, setUser, keyword }) {
                 </Form.Group>
 
                 {user && (
-                  <Form.Group className="mb-3" controlId="formConfirnPassword">
+                  <Form.Group className="mb-3" controlId="formConfirmPassword">
                     <Form.Label className="fw-semibold">
                       현재 비밀번호 확인
                     </Form.Label>
