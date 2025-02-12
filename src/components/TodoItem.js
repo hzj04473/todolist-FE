@@ -32,9 +32,7 @@ const TodoItem = ({ item, onDelete, toggleCompleteTask, formatDate }) => {
               </p>
             ))}
           </div>
-          <Card.Text className="text-truncate-summary bg-light p-2 rounded">
-            {item.geminiMessage}
-          </Card.Text>
+
           <div className="d-grid gap-2 mt-3">
             <Button
               variant="danger"

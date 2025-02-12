@@ -17,5 +17,5 @@
   overflow: hidden;
   text-overflow: ellipsis; /* 말줄임표 */
   line-height: 1.5; /* 줄 간격 조정 */
-  height: 10em; /* 3줄 높이 계산 (line-height * 줄 수) */
+  height: 7em; /* 3줄 높이 계산 (line-height * 줄 수) */
 }
