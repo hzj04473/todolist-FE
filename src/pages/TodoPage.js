@@ -170,7 +170,7 @@ function TodoPage({ user, setUser }) {
         />
       </Helmet>
 
-      <div style={{ paddingTop: '76px' }}>
+      <div style={{ marginTop: '100px' }}>
         {' '}
         {/* Navbar 높이만큼 상단 패딩 추가 */}
         <Container fluid className="p-0">
