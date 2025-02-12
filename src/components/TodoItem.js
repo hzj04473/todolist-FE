@@ -2,6 +2,11 @@ import React from 'react';
 import { Col, Card, Button } from 'react-bootstrap';
 
 const TodoItem = ({ item, onDelete, toggleCompleteTask, formatDate }) => {
+  // geminiMessage를 줄바꿈 기준으로 분리하여 배열로 변환
+  const geminiMessageLines = item.geminiMessage
+    ? item.geminiMessage.split('\n')
+    : [];
+
   // 완료된 항목일 경우 카드 배경색과 텍스트 색상 변경
   const cardStyle = {
     backgroundColor: item.isComplete ? '#e8f5e9' : 'white', // 완료 시 연한 초록색, 미완료 시 흰색
@@ -19,9 +24,18 @@ const TodoItem = ({ item, onDelete, toggleCompleteTask, formatDate }) => {
             {formatDate(item.dueStartDate)} ~ {formatDate(item.dueEndDate)}
           </Card.Text>
           <Card.Text>작성자: {item.author?.name || '-'}</Card.Text>
-          <Card.Text className="text-truncate-summary bg-light p-2 rounded">
+          {/* 요약문 영역 */}
+          <div className="text-truncate-summary bg-light p-2 rounded">
+            {geminiMessageLines.map((line, index) => (
+              <p key={index} className="mb-1">
+                {line}
+              </p>
+            ))}
+          </div>
+
+          {/* <Card.Text className="text-truncate-summary bg-light p-2 rounded">
             {item.geminiMessage}
-          </Card.Text>
+          </Card.Text> */}
           <div className="d-grid gap-2 mt-3">
             <Button
               variant="danger"
