@@ -14,13 +14,14 @@ import { NavPage } from './NavPage';
 
 function TodoPage({ user, setUser }) {
   const [todoList, setTodoList] = useState([]);
+  const [keywordSearchLists, setkeywordSearchLists] = useState('');
   const [todoValue, setTodoValue] = useState({
     task: '',
     isComplete: false,
     dueStartDate: new Date().toISOString().substring(0, 10),
     dueEndDate: new Date().toISOString().substring(0, 10),
   });
-
+  // console.log('keywordSearchLists >>> ', keywordSearchLists);
   const formatDate = useCallback((dateString) => {
     const date = new Date(dateString);
     const year = date.getFullYear().toString().substring(2, 4);
@@ -31,16 +32,27 @@ function TodoPage({ user, setUser }) {
 
   const getTask = useCallback(async () => {
     try {
-      const response = await api.get('/tasks');
-      if (response.status === 200) {
-        setTodoList(response.data.data);
+      if (keywordSearchLists) {
+        setTodoList(keywordSearchLists);
       } else {
-        throw new Error('task can not be lists');
+        const response = await api.get('/tasks');
+        if (response.status === 200) {
+          setTodoList(response.data.data);
+        } else {
+          throw new Error('task can not be lists');
+        }
       }
+
+      // const response = await api.get('/tasks');
+      // if (response.status === 200) {
+      //   setTodoList(response.data.data);
+      // } else {
+      //   throw new Error('task can not be lists');
+      // }
     } catch (err) {
       console.error('error : ', err);
     }
-  }, []);
+  }, [keywordSearchLists]);
 
   const addTask = useCallback(async () => {
     if (!todoValue.dueStartDate.trim()) {
@@ -114,6 +126,9 @@ function TodoPage({ user, setUser }) {
     },
     [getTask]
   );
+  const handleSearch = (searchKeyword) => {
+    setkeywordSearchLists(searchKeyword);
+  };
 
   useEffect(() => {
     getTask();
@@ -130,7 +145,7 @@ function TodoPage({ user, setUser }) {
       </Helmet>
 
       <Container fluid className="p-0">
-        <NavPage user={user} setUser={setUser} />
+        <NavPage user={user} setUser={setUser} onSearch={handleSearch} />
         <Container className="mt-4">
           {/* 시작 일자 및 종료 일자 입력 필드 */}
           <Row className="mb-3">

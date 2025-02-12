@@ -11,12 +11,35 @@ import {
 import api from '../utils/api';
 import { useNavigate, Link } from 'react-router-dom';
 
-export const NavPage = ({ user, setUser }) => {
+export const NavPage = ({ user, setUser, onSearch }) => {
   const navigate = useNavigate();
   const [showOffcanvas, setShowOffcanvas] = useState(false);
+  const [keyword, setKeyword] = useState('');
+  // const [error, setError] = useState();
+  // console.log(keyword);
 
   const handleCloseOffcanvas = () => setShowOffcanvas(false);
   const handleShowOffcanvas = () => setShowOffcanvas(true);
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    if (keyword) {
+      try {
+        const response = await api.post(`/tasks/${keyword}`);
+        if (response.status === 200) {
+          onSearch(response.data.data);
+          setKeyword('');
+          handleCloseOffcanvas();
+        } else {
+          console.error('검색결과가 없습니다.');
+        }
+      } catch (error) {
+        console.error('서버 에러');
+      }
+    } else {
+      console.error('검색어를 입력하세요');
+    }
+  };
 
   const handleLogout = async () => {
     try {
@@ -113,17 +136,35 @@ export const NavPage = ({ user, setUser }) => {
                 )}
               </NavDropdown>
             </Nav>
-            <Form className="d-flex mt-3 mt-md-0">
-              <Form.Control
-                type="search"
-                placeholder="할일 검색"
-                className="me-2 rounded-pill border-secondary-subtle"
-                aria-label="Search"
-              />
-              <Button variant="primary" className="rounded-pill px-3 fw-bold">
-                🔍
-              </Button>
-            </Form>
+            {user && (
+              <>
+                <Form className="d-flex mt-3 mt-md-0" onSubmit={handleSubmit}>
+                  <Form.Control
+                    type="search"
+                    placeholder="할일 검색"
+                    className="me-2 rounded-pill border-secondary-subtle"
+                    aria-label="Search"
+                    onChange={(event) =>
+                      // setUser({ ...user, searchKeyword: event.target.value })
+                      setKeyword(event.target.value)
+                    }
+                    value={keyword}
+                  />
+                  <Button
+                    variant="primary"
+                    type="submit"
+                    className="rounded-pill px-3 fw-bold"
+                  >
+                    🔍
+                  </Button>
+                </Form>
+                {/* {error && (
+                  <Alert className="mt-1" variant="danger">
+                    {error}
+                  </Alert>
+                )} */}
+              </>
+            )}
           </Offcanvas.Body>
         </Navbar.Offcanvas>
       </Container>
