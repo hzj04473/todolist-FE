@@ -25,7 +25,7 @@ const TodoItem = ({ item, onDelete, toggleCompleteTask, formatDate }) => {
           </Card.Text>
           <Card.Text>{item.author?.name || '-'}</Card.Text>
           {/* 요약문 영역 */}
-          <Card className="bg-light p-2 rounded">
+          <Card className="bg-light p-1 rounded">
             <Card.Header className="bg-gray text-dark">Ai Prompt</Card.Header>
             <Card.Body>
               {geminiMessageLines.map((line, index) => (
