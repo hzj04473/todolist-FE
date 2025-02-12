@@ -60,6 +60,15 @@ function App() {
           path="/login"
           element={<LoginPage user={user} setUser={setUser} />}
         />
+
+        <Route
+          path="*"
+          element={
+            <PrivateRoute user={user}>
+              <TodoPage user={user} setUser={setUser} />
+            </PrivateRoute>
+          }
+        />
       </Routes>
     </Container>
   );
