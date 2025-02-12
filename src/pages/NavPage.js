@@ -28,7 +28,9 @@ export const NavPage = ({ user, setUser, onSearch }) => {
         const response = await api.post(`/tasks/${keyword}`);
         if (response.status === 200) {
           onSearch(response.data.data);
+          navigate(`/search/${keyword}`); // URL 변경
           setKeyword('');
+
           handleCloseOffcanvas();
         } else {
           console.error('검색결과가 없습니다.');
