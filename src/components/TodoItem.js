@@ -29,7 +29,7 @@ const TodoItem = ({ item, onDelete, toggleCompleteTask, formatDate }) => {
             <Card.Header className="bg-gray text-dark">Ai Prompt</Card.Header>
             <Card.Body>
               {geminiMessageLines.map((line, index) => (
-                <p key={index} className="mb-1">
+                <p key={index} className="mb-1 small">
                   {line}
                 </p>
               ))}
