@@ -58,7 +58,7 @@ export const NavPage = ({ user, setUser, onSearch }) => {
   };
 
   return (
-    <Navbar expand="md" className="bg-white shadow-sm py-3">
+    <Navbar expand="md" fixed="top" className="bg-white shadow-sm py-3">
       <Container fluid className="px-3">
         <Navbar.Brand href="/">
           <img
