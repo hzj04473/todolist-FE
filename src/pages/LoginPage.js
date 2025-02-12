@@ -45,7 +45,7 @@ function LoginPage({ user, setUser }) {
 
       <Container fluid className="vh-100 p-0 bg-light">
         <NavPage user={user} setUser={setUser} />
-        <Row className="justify-content-center align-items-center h-75 mx-0">
+        <Row className="justify-content-center align-items-center h-75 mx-0 mt-4">
           <Col xs={12} sm={8} md={6} lg={4}>
             <div className="bg-white p-4 rounded shadow-sm">
               {error && <Alert variant="danger">{error}</Alert>}{' '}
