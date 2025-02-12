@@ -109,10 +109,10 @@ function RegisterPage({ user, setUser }) {
     <>
       <Helmet>
         <title>Todo List | 회원가입 페이지</title>
-        <meta
-          name="description"
-          content="React로 만든 Todo 리스트 애플리케이션입니다."
-        />
+        <meta name="description" content="Todo List | 회원가입 페이지" />
+        <meta property="og:url" content={window.location.href} />
+        <meta property="og:title" content="Todo List | 회원가입 페이지" />
+        <meta property="og:description" content="Todo List | 회원가입 페이지" />
       </Helmet>
 
       <Container fluid className="vh-100 p-0 bg-light">
