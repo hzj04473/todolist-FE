@@ -170,108 +170,115 @@ function TodoPage({ user, setUser }) {
         />
       </Helmet>
 
-      <Container fluid className="p-0">
-        <NavPage user={user} setUser={setUser} onSearch={handleSearch} />
-        <Container className="mt-4">
-          {/* 검색 결과 표시 */}
-          {keyword && (
-            <Row className="mb-3">
-              <Col>
-                <h4 className="mb-3">'{keyword}' 검색 결과</h4>
-                <Button
-                  variant="outline-secondary"
-                  onClick={resetSearch}
-                  className="mb-3"
-                >
-                  전체 목록으로 돌아가기
-                </Button>
-              </Col>
-            </Row>
-          )}
-
-          {/* 검색 중이 아닐 때만 입력 폼 표시 */}
-          {!keyword && (
-            <>
-              {/* 기존 입력 폼 컴포넌트들 */}
+      <div style={{ paddingTop: '76px' }}>
+        {' '}
+        {/* Navbar 높이만큼 상단 패딩 추가 */}
+        <Container fluid className="p-0">
+          <NavPage user={user} setUser={setUser} onSearch={handleSearch} />
+          <Container className="mt-4">
+            {/* 검색 결과 표시 */}
+            {keyword && (
               <Row className="mb-3">
-                {/* 시작 일자 및 종료 일자 입력 필드 */}
-                <Col xs={12} md={6}>
-                  <FloatingLabel
-                    controlId="floatingStartDate"
-                    label="시작 일자"
-                    className="mb-3"
-                  >
-                    <Form.Control
-                      type="date"
-                      value={todoValue.dueStartDate}
-                      onChange={(event) =>
-                        setTodoValue({
-                          ...todoValue,
-                          dueStartDate: event.target.value,
-                          dueEndDate: event.target.value,
-                        })
-                      }
-                    />
-                  </FloatingLabel>
-                </Col>
-                <Col xs={12} md={6}>
-                  <FloatingLabel
-                    controlId="floatingEndDate"
-                    label="종료 일자"
-                    className="mb-3"
-                  >
-                    <Form.Control
-                      type="date"
-                      value={todoValue.dueEndDate}
-                      onChange={(event) =>
-                        setTodoValue({
-                          ...todoValue,
-                          dueEndDate: event.target.value,
-                        })
-                      }
-                    />
-                  </FloatingLabel>
-                </Col>
-              </Row>
-              <Row className="mb-4">
-                <Col xs={12} md={10}>
-                  <FloatingLabel
-                    controlId="floatingTask"
-                    label="할일을 입력하세요"
-                    className="mb-3"
-                  >
-                    <Form.Control
-                      type="text"
-                      placeholder="할일을 입력하세요"
-                      value={todoValue.task}
-                      onChange={(event) =>
-                        setTodoValue({ ...todoValue, task: event.target.value })
-                      }
-                    />
-                  </FloatingLabel>
-                </Col>
-                <Col xs={12} md={2}>
+                <Col>
+                  <h4 className="mb-3">'{keyword}' 검색 결과</h4>
                   <Button
-                    variant="primary"
-                    onClick={addTask}
-                    className="w-100 py-2"
-                    style={{ height: '58px' }}
+                    variant="outline-secondary"
+                    onClick={resetSearch}
+                    className="mb-3"
                   >
-                    추가
+                    전체 목록으로 돌아가기
                   </Button>
                 </Col>
               </Row>
-            </>
-          )}
+            )}
 
-          <TodoBoard
-            todoList={todoList}
-            onDelete={deleteTask}
-            toggleCompleteTask={toggleCompleteTask}
-            formatDate={formatDate}
-          />
+            {/* 검색 중이 아닐 때만 입력 폼 표시 */}
+            {!keyword && (
+              <>
+                {/* 기존 입력 폼 컴포넌트들 */}
+                <Row className="mb-3">
+                  {/* 시작 일자 및 종료 일자 입력 필드 */}
+                  <Col xs={12} md={6}>
+                    <FloatingLabel
+                      controlId="floatingStartDate"
+                      label="시작 일자"
+                      className="mb-3"
+                    >
+                      <Form.Control
+                        type="date"
+                        value={todoValue.dueStartDate}
+                        onChange={(event) =>
+                          setTodoValue({
+                            ...todoValue,
+                            dueStartDate: event.target.value,
+                            dueEndDate: event.target.value,
+                          })
+                        }
+                      />
+                    </FloatingLabel>
+                  </Col>
+                  <Col xs={12} md={6}>
+                    <FloatingLabel
+                      controlId="floatingEndDate"
+                      label="종료 일자"
+                      className="mb-3"
+                    >
+                      <Form.Control
+                        type="date"
+                        value={todoValue.dueEndDate}
+                        onChange={(event) =>
+                          setTodoValue({
+                            ...todoValue,
+                            dueEndDate: event.target.value,
+                          })
+                        }
+                      />
+                    </FloatingLabel>
+                  </Col>
+                </Row>
+                <Row className="mb-4">
+                  <Col xs={12} md={10}>
+                    <FloatingLabel
+                      controlId="floatingTask"
+                      label="할일을 입력하세요"
+                      className="mb-3"
+                    >
+                      <Form.Control
+                        type="text"
+                        placeholder="할일을 입력하세요"
+                        value={todoValue.task}
+                        onChange={(event) =>
+                          setTodoValue({
+                            ...todoValue,
+                            task: event.target.value,
+                          })
+                        }
+                      />
+                    </FloatingLabel>
+                  </Col>
+                  <Col xs={12} md={2}>
+                    <Button
+                      variant="primary"
+                      onClick={addTask}
+                      className="w-100 py-2"
+                      style={{ height: '58px' }}
+                    >
+                      추가
+                    </Button>
+                  </Col>
+                </Row>
+              </>
+            )}
+
+            <TodoBoard
+              todoList={todoList}
+              onDelete={deleteTask}
+              toggleCompleteTask={toggleCompleteTask}
+              formatDate={formatDate}
+            />
+          </Container>
         </Container>
-      </Container>
+      </div>
     </>
   );
 }
