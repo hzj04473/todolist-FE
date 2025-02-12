@@ -60,7 +60,14 @@ export const NavPage = ({ user, setUser, onSearch }) => {
   return (
     <Navbar expand="md" className="bg-white shadow-sm py-3">
       <Container fluid className="px-3">
-        <Navbar.Brand as={Link} to="/" className="fw-bold text-primary">
+        <Navbar.Brand href="#home">
+          <img
+            alt=""
+            src="/logo.png"
+            width="30"
+            height="30"
+            className="d-inline-block align-top me-1"
+          />
           Todo List
         </Navbar.Brand>
         <Navbar.Toggle
