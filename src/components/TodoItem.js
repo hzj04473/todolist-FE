@@ -23,15 +23,18 @@ const TodoItem = ({ item, onDelete, toggleCompleteTask, formatDate }) => {
           <Card.Text className="text-muted">
             {formatDate(item.dueStartDate)} ~ {formatDate(item.dueEndDate)}
           </Card.Text>
-          <Card.Text>작성자: {item.author?.name || '-'}</Card.Text>
+          <Card.Text>{item.author?.name || '-'}</Card.Text>
           {/* 요약문 영역 */}
-          <div className="text-truncate-summary bg-light p-2 rounded">
-            {geminiMessageLines.map((line, index) => (
-              <p key={index} className="mb-1">
-                {line}
-              </p>
-            ))}
-          </div>
+          <Card className="bg-light p-2 rounded">
+            <Card.Header className="bg-gray text-dark">Ai Prompt</Card.Header>
+            <Card.Body>
+              {geminiMessageLines.map((line, index) => (
+                <p key={index} className="mb-1">
+                  {line}
+                </p>
+              ))}
+            </Card.Body>
+          </Card>
 
           <div className="d-grid gap-2 mt-3">
             <Button
