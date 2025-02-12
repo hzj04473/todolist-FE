@@ -32,6 +32,7 @@ function App() {
       {/* 추가: 전체 레이아웃을 Container로 감싸기 */}
       <Routes>
         {/* Private Router */}
+        {/* 메인페이지 */}
         <Route
           path="/"
           element={
@@ -40,10 +41,21 @@ function App() {
             </PrivateRoute>
           }
         />
+        {/* 검색할떄 */}
+        <Route
+          path="/search/:keyword"
+          element={
+            <PrivateRoute user={user}>
+              <TodoPage user={user} setUser={setUser} />
+            </PrivateRoute>
+          }
+        />
+        {/* 회원가입 / 수정 */}
         <Route
           path="/register"
           element={<RegisterPage user={user} setUser={setUser} />}
         />
+        {/* 로그인페이지 */}
         <Route
           path="/login"
           element={<LoginPage user={user} setUser={setUser} />}
