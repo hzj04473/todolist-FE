@@ -61,6 +61,9 @@ function App() {
           element={<LoginPage user={user} setUser={setUser} />}
         />
 
+        {/* 카카오톡 Redirect_url */}
+        <Route path="/auth/kakao/callback" element={<RegisterPage />} />
+
         <Route
           path="*"
           element={

@@ -4,12 +4,18 @@ import { Link, useNavigate, Navigate } from 'react-router-dom';
 import api from '../utils/api';
 import { Helmet } from 'react-helmet-async';
 import { NavPage } from './NavPage';
+import { FaComment } from 'react-icons/fa'; // FontAwesome 아이콘 import
 
 function LoginPage({ user, setUser }) {
   const [email, setEmail] = useState('hzj04473@todo.com');
   const [password, setPassword] = useState('1234');
   const [error, setError] = useState('');
   const navigation = useNavigate();
+
+  // 아래 코드에서 client_id는 발급받은 REST_API_KEY값을 넣어준다.
+  // redirect_uri는 여기에선 프론트의 REDIRECT_URI를 사용한다.
+  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`;
+  // console.log(KAKAO_AUTH_URL);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -29,6 +35,10 @@ function LoginPage({ user, setUser }) {
     } catch (error) {
       setError(error.message);
     }
+  };
+
+  const handleLoginWithKakao = () => {
+    window.location.href = KAKAO_AUTH_URL;
   };
 
   if (user) return <Navigate to="/" />;
@@ -77,14 +87,28 @@ function LoginPage({ user, setUser }) {
                 <div className="d-grid gap-2">
                   <Button
                     variant="primary"
-                    type="submit"
+                    type="button"
                     size="lg"
                     className="mb-3 fw-bold"
                   >
                     로그인
                   </Button>
+                  {/* 카카오 로그인 버튼 */}
+                  <Button
+                    href={KAKAO_AUTH_URL} // OAuth 인증 URL
+                    variant="warning"
+                    size="lg"
+                    className="mb-3 fw-bold text-dark"
+                    style={{
+                      backgroundColor: '#FEE500',
+                      borderColor: '#FEE500',
+                    }}
+                    onClick={handleLoginWithKakao}
+                  >
+                    <FaComment className="me-2" /> 카카오 로그인
+                  </Button>
                   <p className="text-center mb-0">
-                    계정이 없다면?{' '}
+                    계정이 없다면?
                     <Link
                       to="/register"
                       className="text-decoration-none fw-semibold"
