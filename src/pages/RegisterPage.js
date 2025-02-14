@@ -147,7 +147,7 @@ function RegisterPage({ user, setUser }) {
                     onChange={(event) => setEmail(event.target.value)}
                     value={email}
                     autoComplete="off"
-                    disabled={user && !isMath}
+                    disabled={user && `true`}
                     className="py-2"
                   />
                 </Form.Group>
