@@ -60,7 +60,7 @@ export const NavPage = ({ user, setUser, onSearch }) => {
   return (
     <Navbar expand="md" sticky="top" className="bg-white shadow-sm py-3">
       <Container fluid className="px-3">
-        <Navbar.Brand href="/">
+        <Navbar.Brand as={Link} to="/">
           <img
             alt=""
             src="/logo.png"
