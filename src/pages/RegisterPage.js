@@ -1,3 +1,4 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { Button, Form, Row, Col, Container, Alert } from 'react-bootstrap'; // Alert 추가
 import { Link, useNavigate } from 'react-router-dom';
@@ -5,16 +6,75 @@ import api from '../utils/api';
 import { Helmet } from 'react-helmet-async';
 import { NavPage } from './NavPage';
 
-function RegisterPage({ user, setUser }) {
+function RegisterPage({ user, setUser, snsLoginType }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [sns, setSns] = useState({
+    snsType: '',
+    snsId: '',
+  });
   const [secPassword, setSecpassword] = useState('');
   const [error, setError] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
   const [isMath, setIsMath] = useState(false);
+  // const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
+  // 카카오로 요청보낸 페이지에서 인가코드를 뽑아옵니다.
+  const getKakaoToken = async (code) => {
+    try {
+      if (snsLoginType) {
+        // 🔹 1️⃣ 카카오 토큰 요청
+        const data = new URLSearchParams({
+          grant_type: 'authorization_code',
+          client_id: process.env.REACT_APP_KAKAO_CLIENT_ID,
+          redirect_uri: process.env.REACT_APP_KAKAO_REDIRECT_URI,
+          code: code,
+        });
+
+        const kakaoTokenResponse = await axios.post(
+          'https://kauth.kakao.com/oauth/token',
+          data,
+          {
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+            },
+          }
+        );
+
+        const accessToken = kakaoTokenResponse.data.access_token;
+
+        // 🔹 2️⃣ 카카오 사용자 정보 요청
+        const userInfoResponse = await axios.get(
+          'https://kapi.kakao.com/v2/user/me',
+          {
+            headers: {
+              Authorization: `Bearer ${accessToken}`,
+              'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
+            },
+          }
+        );
+
+        if (userInfoResponse.data.id) {
+          setName(userInfoResponse.data.properties.nickname);
+          setSns({
+            snsType: 'kakao',
+            snsId: userInfoResponse.data.id,
+          });
+        }
+      }
+    } catch (error) {
+      console.error(
+        '카카오 로그인 에러:',
+        error.response?.data || error.message
+      );
+
+      window.location.href = '/login'; // 에러 발생 시 로그인 페이지로 리다이렉트
+    }
+  };
+
+  // console.log(code);
   const clickPasswordcheck = async () => {
     try {
       if (user) {
@@ -80,6 +140,7 @@ function RegisterPage({ user, setUser }) {
           name,
           email,
           password,
+          sns,
         });
         if (response.status === 201) {
           navigate('/login');
@@ -104,6 +165,19 @@ function RegisterPage({ user, setUser }) {
     setIsMath(false);
     setError('');
   }, [passwordConfirm]);
+
+  useEffect(() => {
+    const code = new URL(window.location.href).searchParams.get('code');
+    if (snsLoginType) {
+      // 🔹 code가 없거나 유효하지 않으면 로그인 페이지로 리다이렉트
+      if (!code) {
+        window.location.href = '/login';
+        return;
+      }
+    }
+
+    getKakaoToken(code); // 유효한 code가 있을 때만 토큰 요청
+  }, []);
 
   return (
     <>

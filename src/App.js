@@ -55,6 +55,7 @@ function App() {
           path="/register"
           element={<RegisterPage user={user} setUser={setUser} />}
         />
+
         {/* 로그인페이지 */}
         <Route
           path="/login"
@@ -62,7 +63,10 @@ function App() {
         />
 
         {/* 카카오톡 Redirect_url */}
-        <Route path="/auth/kakao/callback" element={<RegisterPage />} />
+        <Route
+          path="/auth/kakao/callback"
+          element={<RegisterPage snsLoginType={`kakao`} />}
+        />
 
         <Route
           path="*"

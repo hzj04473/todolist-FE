@@ -87,7 +87,7 @@ function LoginPage({ user, setUser }) {
                 <div className="d-grid gap-2">
                   <Button
                     variant="primary"
-                    type="button"
+                    type="submit"
                     size="lg"
                     className="mb-3 fw-bold"
                   >
