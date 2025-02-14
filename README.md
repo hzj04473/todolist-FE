@@ -1,5 +1,10 @@
 ## todolist-FE
 
+## 0214 FE
+
+- 카카오톡 로그인
+- 프로젝트 발표자료 작성
+
 ## 0212 FE
 
 - 다른 페이지 Helmet metatag 수정
