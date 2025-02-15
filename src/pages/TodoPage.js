@@ -156,20 +156,31 @@ function TodoPage({ user, setUser }) {
         <meta
           name="description"
           content={keyword ? `${keyword} 검색 결과` : 'Todo List 메인페이지'}
+          data-react-helmet="true"
         />
-        <meta property="og:url" content={window.location.href} />
         <meta
           property="og:title"
           content={
             keyword ? `검색: ${keyword} - Todo List` : 'Todo List 메인페이지'
           }
+          data-react-helmet="true"
         />
         <meta
           property="og:description"
           content={keyword ? `${keyword} 검색 결과` : 'Todo List 메인페이지'}
+          data-react-helmet="true"
         />
-        <meta property="og:type" content="website" />
-        <meta property="og:image" content="%PUBLIC_URL%/og_image.png" />
+        <meta
+          property="og:url"
+          content={window.location.href}
+          data-react-helmet="true"
+        />
+        <meta property="og:type" content="website" data-react-helmet="true" />
+        <meta
+          property="og:image"
+          content="https://inpiza.netlify.app/og_image.png"
+          data-react-helmet="true"
+        />
       </Helmet>
 
       {/* Navbar 높이만큼 상단 패딩 추가 */}
