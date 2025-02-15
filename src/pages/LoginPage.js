@@ -51,6 +51,8 @@ function LoginPage({ user, setUser }) {
         <meta property="og:url" content={window.location.href} />
         <meta property="og:title" content="Todo List | 로그인페이지" />
         <meta property="og:description" content="Todo List | 로그인페이지" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="%PUBLIC_URL%/og_image.png" />
       </Helmet>
 
       <Container fluid className="vh-100 p-0 bg-light">

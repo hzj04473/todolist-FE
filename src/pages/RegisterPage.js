@@ -204,6 +204,8 @@ function RegisterPage({ user, setUser, snsLoginType }) {
         )}
 
         <meta property="og:description" content="Todo List | 회원가입 페이지" />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="%PUBLIC_URL%/og_image.png" />
       </Helmet>
 
       <Container fluid className="vh-100 p-0 bg-light">

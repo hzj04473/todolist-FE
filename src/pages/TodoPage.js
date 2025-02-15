@@ -168,6 +168,8 @@ function TodoPage({ user, setUser }) {
           property="og:description"
           content={keyword ? `${keyword} 검색 결과` : 'Todo List 메인페이지'}
         />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="%PUBLIC_URL%/og_image.png" />
       </Helmet>
 
       {/* Navbar 높이만큼 상단 패딩 추가 */}
