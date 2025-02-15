@@ -187,10 +187,22 @@ function RegisterPage({ user, setUser, snsLoginType }) {
   return (
     <>
       <Helmet>
-        <title>Todo List | 회원가입 페이지</title>
+        <title>
+          {user
+            ? 'Todo List | 회원정보 수정 페이지'
+            : 'Todo List | 회원가입 페이지'}
+        </title>
         <meta name="description" content="Todo List | 회원가입 페이지" />
         <meta property="og:url" content={window.location.href} />
-        <meta property="og:title" content="Todo List | 회원가입 페이지" />
+        {user ? (
+          <meta
+            property="og:title"
+            content="Todo List | 회원정보 수정 페이지"
+          />
+        ) : (
+          <meta property="og:title" content="Todo List | 회원가입 페이지" />
+        )}
+
         <meta property="og:description" content="Todo List | 회원가입 페이지" />
       </Helmet>
 
