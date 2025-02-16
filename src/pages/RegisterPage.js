@@ -189,27 +189,35 @@ function RegisterPage({ user, setUser, snsLoginType }) {
       <Helmet>
         <title>
           {user
-            ? 'Todo List | 회원정보 수정 페이지'
-            : 'Todo List | 회원가입 페이지'}
+            ? `Todo List | 회원정보 수정 페이지`
+            : `Todo List | 회원가입 페이지`}
         </title>
-        <meta name="description" content="Todo List | 회원가입 페이지" />
-        <meta property="og:url" content={window.location.href} />
-        {user ? (
-          <meta
-            property="og:title"
-            content="Todo List | 회원정보 수정 페이지"
-          />
-        ) : (
-          <meta property="og:title" content="Todo List | 회원가입 페이지" />
-        )}
-
-        <meta property="og:description" content="Todo List | 회원가입 페이지" />
-        <meta property="og:url" content={window.location.href} />
-        <meta property="og:type" content="website" />
         <meta
-          property="og:image"
-          content="https://inpiza.netlify.app/og_image.png"
+          name="description"
+          content={
+            user
+              ? `Todo List | 회원정보 수정 페이지 입니다. 회원정보를 수정 해 주세요.`
+              : `Todo List | 회원가입 페이지 입니다. 회원가입을 해 주세요.`
+          }
         />
+        <meta
+          property="og:title"
+          content={
+            user
+              ? `Todo List | 회원정보 수정 페이지`
+              : `Todo List | 회원가입 페이지`
+          }
+        />
+        <meta
+          property="og:description"
+          content={
+            user
+              ? `Todo List | 회원정보 수정 페이지 입니다. 회원정보를 수정 해 주세요.`
+              : `Todo List | 회원가입 페이지 입니다. 회원가입을 해 주세요.`
+          }
+        />
+        <meta property="og:url" content={window.location.href} />
+        <link rel="canonical" href={window.location.href} />
       </Helmet>
 
       <Container fluid className="vh-100 p-0 bg-light">

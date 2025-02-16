@@ -168,11 +168,7 @@ function TodoPage({ user, setUser }) {
           content={keyword ? `${keyword} 검색 결과` : 'Todo List 메인페이지'}
         />
         <meta property="og:url" content={window.location.href} />
-        <meta property="og:type" content="website" />
-        <meta
-          property="og:image"
-          content="https://inpiza.netlify.app/og_image.png"
-        />
+        <link rel="canonical" href={window.location.href} />
       </Helmet>
 
       {/* Navbar 높이만큼 상단 패딩 추가 */}

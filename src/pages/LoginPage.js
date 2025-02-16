@@ -47,15 +47,17 @@ function LoginPage({ user, setUser }) {
     <>
       <Helmet>
         <title>Todo List | 로그인페이지</title>
-        <meta name="description" content="Todo List | 로그인페이지" />
-        <meta property="og:title" content="Todo List | 로그인페이지" />
-        <meta property="og:description" content="Todo List | 로그인페이지" />
-        <meta property="og:url" content={window.location.href} />
-        <meta property="og:type" content="website" />
         <meta
-          property="og:image"
-          content="https://inpiza.netlify.app/og_image.png"
+          name="description"
+          content="Todo List 로그인 페이지입니다. 이메일과 비밀번호로 로그인하거나 카카오 계정으로 로그인할 수 있습니다."
         />
+        <meta property="og:title" content="로그인 | Todo List" />
+        <meta
+          property="og:description"
+          content="Todo List 로그인 페이지입니다. 이메일과 비밀번호로 로그인하거나 카카오 계정으로 로그인할 수 있습니다."
+        />
+        <meta property="og:url" content={window.location.href} />
+        <link rel="canonical" href={window.location.href} />
       </Helmet>
 
       <Container fluid className="vh-100 p-0 bg-light">
