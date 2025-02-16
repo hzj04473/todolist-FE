@@ -12,6 +12,7 @@ import {
 import { Helmet } from 'react-helmet-async';
 import { NavPage } from './NavPage';
 import { useNavigate, useParams, useLocation } from 'react-router-dom';
+import { getSEOData } from '../utils/seoConfig';
 
 function TodoPage({ user, setUser }) {
   // URL에서 검색어 파라미터 가져오기
@@ -37,6 +38,13 @@ function TodoPage({ user, setUser }) {
   }, []);
 
   const location = useLocation();
+
+  const seoData = getSEOData(location.pathname, {
+    title: keyword ? `검색: ${keyword} - Todo List` : `Todo List 메인페이지`,
+    description: keyword
+      ? `검색: ${keyword} - Todo List`
+      : 'Todo List 메인페이지',
+  });
 
   const getTask = useCallback(async () => {
     try {
@@ -149,30 +157,25 @@ function TodoPage({ user, setUser }) {
     getTask();
   }, [getTask]);
 
-  const currentUrl = `${process.env.REACT_APP_PUBLIC_URL}${location.pathname}`;
-
   return (
     <>
       <Helmet>
-        <title>
-          {keyword ? `검색: ${keyword} - Todo List` : 'Todo List 메인페이지'}
-        </title>
-        <meta
-          name="description"
-          content={keyword ? `${keyword} 검색 결과` : 'Todo List 메인페이지'}
-        />
-        <meta
-          property="og:title"
-          content={
-            keyword ? `검색: ${keyword} - Todo List` : 'Todo List 메인페이지'
-          }
-        />
-        <meta
-          property="og:description"
-          content={keyword ? `${keyword} 검색 결과` : 'Todo List 메인페이지'}
-        />
-        <meta property="og:url" content={currentUrl} />
-        <link rel="canonical" href={currentUrl} />
+        <title>{seoData.title}</title>
+        <meta name="description" content={seoData.description} />
+
+        {/* Open Graph 태그 */}
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Todo List" />
+        <meta property="og:title" content={seoData.title} />
+        <meta property="og:description" content={seoData.description} />
+        <meta property="og:url" content={seoData.currentUrl} />
+        <meta property="og:image" content={seoData.defaultImage} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+
+        {/* 추가 SEO 태그 */}
+        <link rel="canonical" href={seoData.currentUrl} />
+        <meta name="robots" content="index,follow" />
       </Helmet>
 
       {/* Navbar 높이만큼 상단 패딩 추가 */}

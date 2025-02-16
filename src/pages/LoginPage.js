@@ -4,7 +4,8 @@ import { Link, useNavigate, Navigate, useLocation } from 'react-router-dom';
 import api from '../utils/api';
 import { Helmet } from 'react-helmet-async';
 import { NavPage } from './NavPage';
-import { FaComment } from 'react-icons/fa'; // FontAwesome 아이콘 import
+// import { FaComment } from 'react-icons/fa'; // FontAwesome 아이콘 import
+import { getSEOData } from '../utils/seoConfig';
 
 function LoginPage({ user, setUser }) {
   const [email, setEmail] = useState('hzj04473@todo.com');
@@ -13,9 +14,15 @@ function LoginPage({ user, setUser }) {
   const navigation = useNavigate();
   const location = useLocation();
 
+  const seoData = getSEOData(location.pathname, {
+    title: 'Todo List | 로그인페이지',
+    description:
+      'Todo List 로그인 페이지입니다. 이메일과 비밀번호로 로그인하거나 카카오 계정으로 로그인할 수 있습니다.',
+  });
+
   // 아래 코드에서 client_id는 발급받은 REST_API_KEY값을 넣어준다.
   // redirect_uri는 여기에선 프론트의 REDIRECT_URI를 사용한다.
-  const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`;
+  // const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_CLIENT_ID}&redirect_uri=${process.env.REACT_APP_KAKAO_REDIRECT_URI}&response_type=code`;
   // console.log(KAKAO_AUTH_URL);
 
   const handleLogin = async (event) => {
@@ -38,29 +45,31 @@ function LoginPage({ user, setUser }) {
     }
   };
 
-  const handleLoginWithKakao = () => {
-    window.location.href = KAKAO_AUTH_URL;
-  };
+  // const handleLoginWithKakao = () => {
+  //   window.location.href = KAKAO_AUTH_URL;
+  // };
 
   if (user) return <Navigate to="/" />;
-
-  const currentUrl = `${process.env.REACT_APP_PUBLIC_URL}${location.pathname}`;
 
   return (
     <>
       <Helmet>
-        <title>Todo List | 로그인페이지</title>
-        <meta
-          name="description"
-          content="Todo List 로그인 페이지입니다. 이메일과 비밀번호로 로그인하거나 카카오 계정으로 로그인할 수 있습니다."
-        />
-        <meta property="og:title" content="로그인 | Todo List" />
-        <meta
-          property="og:description"
-          content="Todo List 로그인 페이지입니다. 이메일과 비밀번호로 로그인하거나 카카오 계정으로 로그인할 수 있습니다."
-        />
-        <meta property="og:url" content={currentUrl} />
-        <link rel="canonical" href={currentUrl} />
+        <title>{seoData.title}</title>
+        <meta name="description" content={seoData.description} />
+
+        {/* Open Graph 태그 */}
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Todo List" />
+        <meta property="og:title" content={seoData.title} />
+        <meta property="og:description" content={seoData.description} />
+        <meta property="og:url" content={seoData.currentUrl} />
+        <meta property="og:image" content={seoData.defaultImage} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+
+        {/* 추가 SEO 태그 */}
+        <link rel="canonical" href={seoData.currentUrl} />
+        <meta name="robots" content="index,follow" />
       </Helmet>
 
       <Container fluid className="vh-100 p-0 bg-light">
@@ -104,7 +113,7 @@ function LoginPage({ user, setUser }) {
                     로그인
                   </Button>
                   {/* 카카오 로그인 버튼 */}
-                  <Button
+                  {/* <Button
                     href={KAKAO_AUTH_URL} // OAuth 인증 URL
                     variant="warning"
                     size="lg"
@@ -116,7 +125,7 @@ function LoginPage({ user, setUser }) {
                     onClick={handleLoginWithKakao}
                   >
                     <FaComment className="me-2" /> 카카오 로그인
-                  </Button>
+                  </Button> */}
                   <p className="text-center mb-0">
                     계정이 없다면?
                     <Link

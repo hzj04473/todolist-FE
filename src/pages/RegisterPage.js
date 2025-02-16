@@ -5,7 +5,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import api from '../utils/api';
 import { Helmet } from 'react-helmet-async';
 import { NavPage } from './NavPage';
-
+import { getSEOData } from '../utils/seoConfig';
 function RegisterPage({ user, setUser, snsLoginType }) {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -21,6 +21,15 @@ function RegisterPage({ user, setUser, snsLoginType }) {
   // const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const seoData = getSEOData(location.pathname, {
+    title: user
+      ? `Todo List | 회원정보 수정 페이지`
+      : `Todo List | 회원가입 페이지`,
+    description: user
+      ? `Todo List | 회원정보 수정 페이지 입니다. 회원정보를 수정 해 주세요.`
+      : `Todo List | 회원가입 페이지 입니다. 회원가입을 해 주세요.`,
+  });
 
   // 카카오로 요청보낸 페이지에서 인가코드를 뽑아옵니다.
   const getKakaoToken = useCallback(
@@ -185,42 +194,25 @@ function RegisterPage({ user, setUser, snsLoginType }) {
     getKakaoToken(code); // 유효한 code가 있을 때만 토큰 요청
   }, [snsLoginType, getKakaoToken]);
 
-  const currentUrl = `${process.env.REACT_APP_PUBLIC_URL}${location.pathname}`;
-
   return (
     <>
       <Helmet>
-        <title>
-          {user
-            ? `Todo List | 회원정보 수정 페이지`
-            : `Todo List | 회원가입 페이지`}
-        </title>
-        <meta
-          name="description"
-          content={
-            user
-              ? `Todo List | 회원정보 수정 페이지 입니다. 회원정보를 수정 해 주세요.`
-              : `Todo List | 회원가입 페이지 입니다. 회원가입을 해 주세요.`
-          }
-        />
-        <meta
-          property="og:title"
-          content={
-            user
-              ? `Todo List | 회원정보 수정 페이지`
-              : `Todo List | 회원가입 페이지`
-          }
-        />
-        <meta
-          property="og:description"
-          content={
-            user
-              ? `Todo List | 회원정보 수정 페이지 입니다. 회원정보를 수정 해 주세요.`
-              : `Todo List | 회원가입 페이지 입니다. 회원가입을 해 주세요.`
-          }
-        />
-        <meta property="og:url" content={currentUrl} />
-        <link rel="canonical" href={currentUrl} />
+        <title>{seoData.title}</title>
+        <meta name="description" content={seoData.description} />
+
+        {/* Open Graph 태그 */}
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Todo List" />
+        <meta property="og:title" content={seoData.title} />
+        <meta property="og:description" content={seoData.description} />
+        <meta property="og:url" content={seoData.currentUrl} />
+        <meta property="og:image" content={seoData.defaultImage} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+
+        {/* 추가 SEO 태그 */}
+        <link rel="canonical" href={seoData.currentUrl} />
+        <meta name="robots" content="index,follow" />
       </Helmet>
 
       <Container fluid className="vh-100 p-0 bg-light">
