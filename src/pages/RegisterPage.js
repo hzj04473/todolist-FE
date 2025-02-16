@@ -1,7 +1,7 @@
 import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Button, Form, Row, Col, Container, Alert } from 'react-bootstrap'; // Alert 추가
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import api from '../utils/api';
 import { Helmet } from 'react-helmet-async';
 import { NavPage } from './NavPage';
@@ -20,6 +20,7 @@ function RegisterPage({ user, setUser, snsLoginType }) {
   const [isMath, setIsMath] = useState(false);
   // const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const location = useLocation();
 
   // 카카오로 요청보낸 페이지에서 인가코드를 뽑아옵니다.
   const getKakaoToken = useCallback(
@@ -184,6 +185,8 @@ function RegisterPage({ user, setUser, snsLoginType }) {
     getKakaoToken(code); // 유효한 code가 있을 때만 토큰 요청
   }, [snsLoginType, getKakaoToken]);
 
+  const currentUrl = `${process.env.REACT_APP_PUBLIC_URL}${location.pathname}`;
+
   return (
     <>
       <Helmet>
@@ -216,8 +219,8 @@ function RegisterPage({ user, setUser, snsLoginType }) {
               : `Todo List | 회원가입 페이지 입니다. 회원가입을 해 주세요.`
           }
         />
-        <meta property="og:url" content={window.location.href} />
-        <link rel="canonical" href={window.location.href} />
+        <meta property="og:url" content={currentUrl} />
+        <link rel="canonical" href={currentUrl} />
       </Helmet>
 
       <Container fluid className="vh-100 p-0 bg-light">

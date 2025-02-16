@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Form, Row, Col, Container, Alert } from 'react-bootstrap'; // Alert 추가
-import { Link, useNavigate, Navigate } from 'react-router-dom';
+import { Link, useNavigate, Navigate, useLocation } from 'react-router-dom';
 import api from '../utils/api';
 import { Helmet } from 'react-helmet-async';
 import { NavPage } from './NavPage';
@@ -11,6 +11,7 @@ function LoginPage({ user, setUser }) {
   const [password, setPassword] = useState('1234');
   const [error, setError] = useState('');
   const navigation = useNavigate();
+  const location = useLocation();
 
   // 아래 코드에서 client_id는 발급받은 REST_API_KEY값을 넣어준다.
   // redirect_uri는 여기에선 프론트의 REDIRECT_URI를 사용한다.
@@ -43,6 +44,8 @@ function LoginPage({ user, setUser }) {
 
   if (user) return <Navigate to="/" />;
 
+  const currentUrl = `${process.env.REACT_APP_PUBLIC_URL}${location.pathname}`;
+
   return (
     <>
       <Helmet>
@@ -56,8 +59,8 @@ function LoginPage({ user, setUser }) {
           property="og:description"
           content="Todo List 로그인 페이지입니다. 이메일과 비밀번호로 로그인하거나 카카오 계정으로 로그인할 수 있습니다."
         />
-        <meta property="og:url" content={window.location.href} />
-        <link rel="canonical" href={window.location.href} />
+        <meta property="og:url" content={currentUrl} />
+        <link rel="canonical" href={currentUrl} />
       </Helmet>
 
       <Container fluid className="vh-100 p-0 bg-light">

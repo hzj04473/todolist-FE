@@ -39,7 +39,7 @@ function App() {
         <meta property="og:site_name" content="Todo List" />
         <meta
           property="og:image"
-          content={window.location.href`/og_image.png`}
+          content={`${process.env.REACT_APP_PUBLIC_URL}/og_image.png`}
         />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />

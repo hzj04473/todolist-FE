@@ -11,7 +11,7 @@ import {
 } from 'react-bootstrap';
 import { Helmet } from 'react-helmet-async';
 import { NavPage } from './NavPage';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 
 function TodoPage({ user, setUser }) {
   // URL에서 검색어 파라미터 가져오기
@@ -35,6 +35,8 @@ function TodoPage({ user, setUser }) {
     const day = date.getDate().toString().padStart(2, '0');
     return `${year}.${month}.${day}`;
   }, []);
+
+  const location = useLocation();
 
   const getTask = useCallback(async () => {
     try {
@@ -147,6 +149,8 @@ function TodoPage({ user, setUser }) {
     getTask();
   }, [getTask]);
 
+  const currentUrl = `${process.env.REACT_APP_PUBLIC_URL}${location.pathname}`;
+
   return (
     <>
       <Helmet>
@@ -167,8 +171,8 @@ function TodoPage({ user, setUser }) {
           property="og:description"
           content={keyword ? `${keyword} 검색 결과` : 'Todo List 메인페이지'}
         />
-        <meta property="og:url" content={window.location.href} />
-        <link rel="canonical" href={window.location.href} />
+        <meta property="og:url" content={currentUrl} />
+        <link rel="canonical" href={currentUrl} />
       </Helmet>
 
       {/* Navbar 높이만큼 상단 패딩 추가 */}
