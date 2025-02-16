@@ -8,7 +8,6 @@ import { useCallback, useEffect, useState } from 'react';
 import PrivateRoute from './route/PrivateRoute';
 import api from './utils/api';
 import { Container } from 'react-bootstrap'; // 추가
-import { Helmet } from 'react-helmet-async';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -31,19 +30,6 @@ function App() {
   return (
     <Container fluid className="p-0">
       {/* 추가: 전체 레이아웃을 Container로 감싸기 */}
-      {/* 기본 메타 정보 설정 */}
-      <Helmet defaultTitle="Todo List" titleTemplate="%s | Todo List">
-        <html lang="ko" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta property="og:type" content="website" />
-        <meta property="og:site_name" content="Todo List" />
-        <meta
-          property="og:image"
-          content={`${process.env.REACT_APP_PUBLIC_URL}/og_image.png`}
-        />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="630" />
-      </Helmet>
 
       <Routes>
         {/* Private Router */}
